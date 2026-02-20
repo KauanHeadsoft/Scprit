@@ -1,0 +1,165 @@
+HORA,JANELA_ATIVA (O que o usuário vê),PROCESSO_DA_JANELA,PID,MEMORIA_RAM(MB),SITE_DETECTADO (Via Título/Rede),PORTAS_ABERTAS (LISTEN),CONEXOES_EXTERNAS (IPs)
+13:20:19,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,50.0,-,,
+13:20:20,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.5,-,,
+13:20:21,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.5,-,,
+13:20:22,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.6,-,,
+13:20:23,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.9,-,,
+13:20:24,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.8,-,,
+13:20:25,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.8,-,,
+13:20:26,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.8,-,,
+13:20:27,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.9,-,,
+13:20:28,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,49.8,-,,
+13:20:29,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,176.7,-,,
+13:20:30,Google Gemini - Google Chrome,chrome.exe,18500,178.1,-,,
+13:20:31,Google Gemini - Google Chrome,chrome.exe,18500,179.3,-,,
+13:20:32,Google Gemini - Google Chrome,chrome.exe,18500,177.9,-,,
+13:20:33,Google Gemini - Google Chrome,chrome.exe,18500,177.9,-,,
+13:20:34,Google Gemini - Google Chrome,chrome.exe,18500,177.9,-,,
+13:20:35,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:36,Google Gemini - Google Chrome,chrome.exe,18500,177.7,-,,
+13:20:37,Google Gemini - Google Chrome,chrome.exe,18500,177.7,-,,
+13:20:38,Google Gemini - Google Chrome,chrome.exe,18500,177.7,-,,
+13:20:39,Google Gemini - Google Chrome,chrome.exe,18500,177.7,-,,
+13:20:40,Google Gemini - Google Chrome,chrome.exe,18500,177.8,-,,
+13:20:41,Google Gemini - Google Chrome,chrome.exe,18500,177.8,-,,
+13:20:42,Google Gemini - Google Chrome,chrome.exe,18500,177.8,-,,
+13:20:43,Google Gemini - Google Chrome,chrome.exe,18500,177.8,-,,
+13:20:44,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:45,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:46,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:47,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:48,Google Gemini - Google Chrome,chrome.exe,18500,177.8,-,,
+13:20:49,Google Gemini - Google Chrome,chrome.exe,18500,177.9,-,,
+13:20:50,Google Gemini - Google Chrome,chrome.exe,18500,177.9,-,,
+13:20:51,Google Gemini - Google Chrome,chrome.exe,18500,178.0,-,,
+13:20:52,Google Gemini - Google Chrome,chrome.exe,18500,178.5,-,,
+13:20:53,Google Gemini - Google Chrome,chrome.exe,18500,178.6,-,,
+13:20:54,Google Gemini - Google Chrome,chrome.exe,18500,179.3,-,,
+13:20:55,Google Gemini - Google Chrome,chrome.exe,18500,179.3,-,,
+13:20:56,Google Gemini - Google Chrome,chrome.exe,18500,175.7,-,,
+13:20:57,Google Gemini - Google Chrome,chrome.exe,18500,175.7,-,,
+13:20:58,Google Gemini - Google Chrome,chrome.exe,18500,175.8,-,,
+13:20:59,Google Gemini - Google Chrome,chrome.exe,18500,175.9,-,,
+13:21:00,Google Gemini - Google Chrome,chrome.exe,18500,175.9,-,,
+13:21:01,Google Gemini - Google Chrome,chrome.exe,18500,175.9,-,,
+13:21:02,Google Gemini - Google Chrome,chrome.exe,18500,176.0,-,,
+13:21:03,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:04,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:05,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:06,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:07,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:08,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:09,Google Gemini - Google Chrome,chrome.exe,18500,176.3,-,,
+13:21:10,Google Gemini - Google Chrome,chrome.exe,18500,176.3,-,,
+13:21:11,Google Gemini - Google Chrome,chrome.exe,18500,176.3,-,,
+13:21:12,Google Gemini - Google Chrome,chrome.exe,18500,176.2,-,,
+13:21:13,Google Gemini - Google Chrome,chrome.exe,18500,176.8,-,,
+13:21:14,Google Gemini - Google Chrome,chrome.exe,18500,176.8,-,,
+13:21:15,Google Gemini - Google Chrome,chrome.exe,18500,177.2,-,,
+13:21:16,Google Gemini - Google Chrome,chrome.exe,18500,176.8,-,,
+13:21:17,Google Gemini - Google Chrome,chrome.exe,18500,178.8,-,,
+13:21:18,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,180.3,-,,
+13:21:19,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,180.3,-,,
+13:21:20,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,178.7,-,,
+13:21:21,Miki Matsubara - Stay With Me HD (Club Mix) - YouTube - Google Chrome,chrome.exe,18500,180.8,-,,
+13:21:22,Miki Matsubara - Stay With Me HD (Club Mix) - YouTube - Google Chrome,chrome.exe,18500,180.5,-,,
+13:21:23,Miki Matsubara - Stay With Me HD (Club Mix) - YouTube - Google Chrome,chrome.exe,18500,180.7,-,,
+13:21:24,Google Gemini - Google Chrome,chrome.exe,18500,180.7,-,,
+13:21:25,Google Gemini - Google Chrome,chrome.exe,18500,180.7,-,,
+13:21:26,Google Gemini - Google Chrome,chrome.exe,18500,180.6,-,,
+13:21:27,Google Gemini - Google Chrome,chrome.exe,18500,180.7,-,,
+13:21:28,Google Gemini - Google Chrome,chrome.exe,18500,179.8,-,,
+13:21:29,Google Gemini - Google Chrome,chrome.exe,18500,179.8,-,,
+13:21:30,Google Gemini - Google Chrome,chrome.exe,18500,179.9,-,,
+13:21:31,Google Gemini - Google Chrome,chrome.exe,18500,179.9,-,,
+13:21:32,Google Gemini - Google Chrome,chrome.exe,18500,179.1,-,,
+13:21:33,Google Gemini - Google Chrome,chrome.exe,18500,179.4,-,,
+13:21:34,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,50.7,-,,
+13:21:35,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,51.2,-,,
+13:21:36,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,183.7,-,,
+13:21:37,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,183.9,-,,
+13:21:38,Taxa logística,Desktop.exe,23376,92.8,-,,191.239.243.77:9322
+13:21:39,Taxa logística,Desktop.exe,23376,92.9,-,,191.239.243.77:9322
+13:21:40,Pesquisar...,Desktop.exe,23376,93.0,-,,191.239.243.77:9322
+13:21:41,Pesquisar...,Desktop.exe,23376,93.0,-,,191.239.243.77:9322
+13:21:42,Pesquisar...,Desktop.exe,23376,93.0,-,,191.239.243.77:9322
+13:21:43,Pesquisar...,Desktop.exe,23376,93.0,-,,191.239.243.77:9322
+13:21:44,Pesquisar...,Desktop.exe,23376,93.1,-,,191.239.243.77:9322
+13:21:45,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,93.6,-,,191.239.243.77:9322
+13:21:46,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,93.6,-,,191.239.243.77:9322
+13:21:47,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,93.6,-,,191.239.243.77:9322
+13:21:48,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,93.6,-,,191.239.243.77:9322
+13:21:49,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,94.0,-,,191.239.243.77:9322
+13:21:50,Pessoa,Desktop.exe,23376,94.4,-,,191.239.243.77:9322
+13:21:51,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,95.1,-,,191.239.243.77:9322
+13:21:52,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,95.1,-,,191.239.243.77:9322
+13:21:53,Informação,Desktop.exe,23376,95.3,-,,191.239.243.77:9322
+13:21:54,Informação,Desktop.exe,23376,95.3,-,,191.239.243.77:9322
+13:21:55,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,95.4,-,,191.239.243.77:9322
+13:21:56,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,95.4,-,,191.239.243.77:9322
+13:21:57,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,96.4,-,,191.239.243.77:9322
+13:21:58,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,96.9,-,,191.239.243.77:9322
+13:21:59,Confirmação,Desktop.exe,23376,97.0,-,,191.239.243.77:9322
+13:22:00,Confirmação,Desktop.exe,23376,97.0,-,,191.239.243.77:9322
+13:22:01,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,97.4,-,,191.239.243.77:9322
+13:22:02,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,97.4,-,,191.239.243.77:9322
+13:22:03,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,98.5,-,,191.239.243.77:9322
+13:22:04,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,99.8,-,,191.239.243.77:9322
+13:22:05,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,99.9,-,,191.239.243.77:9322
+13:22:06,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,102.8,-,,191.239.243.77:9322
+13:22:07,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.2,-,,191.239.243.77:9322
+13:22:08,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.6,-,,191.239.243.77:9322
+13:22:09,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,104.2,-,,191.239.243.77:9322
+13:22:10,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.3,-,,191.239.243.77:9322
+13:22:11,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.3,-,,191.239.243.77:9322
+13:22:12,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.4,-,,191.239.243.77:9322
+13:22:13,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:14,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:15,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:16,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:17,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:18,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:19,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:20,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:21,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:22,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:23,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:24,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:25,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:26,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:27,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.5,-,,191.239.243.77:9322
+13:22:28,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.3,-,,191.239.243.77:9322
+13:22:29,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.3,-,,191.239.243.77:9322
+13:22:30,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,103.7,-,,191.239.243.77:9322
+13:22:31,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.3,-,,191.239.243.77:9322
+13:22:32,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.1,-,,191.239.243.77:9322
+13:22:33,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.1,-,,191.239.243.77:9322
+13:22:34,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.1,-,,191.239.243.77:9322
+13:22:35,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.3,-,,191.239.243.77:9322
+13:22:36,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.5,-,,191.239.243.77:9322
+13:22:37,Finalizar fatura,Desktop.exe,23376,106.2,-,,191.239.243.77:9322
+13:22:38,Finalizar fatura,Desktop.exe,23376,106.2,-,,191.239.243.77:9322
+13:22:39,Finalizar fatura,Desktop.exe,23376,106.5,-,,191.239.243.77:9322
+13:22:40,Finalizar fatura,Desktop.exe,23376,106.5,-,,191.239.243.77:9322
+13:22:41,Finalizar fatura,Desktop.exe,23376,106.5,-,,191.239.243.77:9322
+13:22:42,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.7,-,,191.239.243.77:9322
+13:22:43,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,106.7,-,,191.239.243.77:9322
+13:22:44,HeadCARGO HEADSOFT TESTES - [Operacional],Desktop.exe,23376,107.0,-,,191.239.243.77:9322
+13:22:45,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,107.1,-,,191.239.243.77:9322
+13:22:46,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,119.4,-,,191.239.243.77:9322
+13:22:47,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,119.5,-,,191.239.243.77:9322
+13:22:48,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,119.5,-,,191.239.243.77:9322
+13:22:49,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,119.5,-,,191.239.243.77:9322
+13:22:50,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,5.6,-,,191.239.243.77:9322
+13:22:51,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,6.9,-,,191.239.243.77:9322
+13:22:52,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,6.9,-,,191.239.243.77:9322
+13:22:53,HeadCARGO HEADSOFT TESTES - [CRM],Desktop.exe,23376,24.8,-,,191.239.243.77:9322
+13:22:54,[Área de Trabalho ou Transição],explorer.exe,8984,93.6,-,,
+13:22:55,[Área de Trabalho ou Transição],explorer.exe,8984,94.5,-,,
+13:22:56,[Área de Trabalho ou Transição],explorer.exe,8984,101.6,-,,
+13:22:57,[Área de Trabalho ou Transição],explorer.exe,8984,101.7,-,,
+13:22:58,[Área de Trabalho ou Transição],explorer.exe,8984,102.2,-,,
+13:22:59,HeadSoft Service Desk - Google Chrome,chrome.exe,18500,68.7,-,,
+13:23:00,Google Gemini - Google Chrome,chrome.exe,18500,98.4,-,,
+13:23:01,Google Gemini - Google Chrome,chrome.exe,18500,99.7,-,,
+13:23:02,import psutil.py - Scripts - Visual Studio Code,Code.exe,15104,23.8,-,,

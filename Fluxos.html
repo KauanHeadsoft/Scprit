@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FluxoDesign Pro - Editor Profissional</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --sidebar-width: 80px;
+            --primary-color: #4f46e5;
+            --bg-color: #f8fafc;
+            --canvas-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --selection-blue: rgba(79, 70, 229, 0.1);
+            --selection-border: rgba(79, 70, 229, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* --- UI: Barra Lateral --- */
+        #toolbar {
+            width: var(--sidebar-width);
+            background: white;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            z-index: 20;
+            overflow-y: auto;
+        }
+
+        .brand {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .tool-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tool-section:last-child { border-bottom: none; }
+        
+        .section-label {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tool-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tool-btn:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        .tool-btn.active {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            border-color: #c7d2fe;
+        }
+
+        /* Tooltips */
+        .tool-btn::after {
+            content: attr(title);
+            position: absolute;
+            left: 55px;
+            background: #1e293b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .tool-btn:hover::after { opacity: 1; visibility: visible; }
+
+        /* --- UI: Área Principal --- */
+        #main-area {
+            margin-left: var(--sidebar-width);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra Superior */
+        #top-bar {
+            height: 60px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .prop-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-right: 20px;
+            border-right: 1px solid var(--border-color);
+            margin-right: 20px;
+        }
+        .prop-group:last-child { border: none; }
+
+        .color-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        input[type="color"] {
+            border: none;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        .btn-toggle-group {
+            display: flex;
+            background: #f1f5f9;
+            padding: 3px;
+            border-radius: 8px;
+        }
+
+        .btn-toggle {
+            border: none;
+            background: transparent;
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: #64748b;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .btn-toggle:hover { color: #334155; }
+        .btn-toggle.active { background: white; color: var(--primary-color); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+        /* Canvas */
+        #canvas-container {
+            flex-grow: 1;
+            position: relative;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+        }
+
+        .floating-textarea {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--primary-color);
+            outline: none;
+            resize: none;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            padding: 4px;
+            z-index: 1000;
+            color: #333;
+            min-width: 50px;
+            min-height: 1.2em;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            line-height: 1.2;
+        }
+
+        /* Notificação de Salvamento */
+        #save-status {
+            font-size: 0.8rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #save-status.show { opacity: 1; }
+        
+        /* Dica de atalho */
+        .shortcut-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 41, 59, 0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Ferramentas -->
+    <div id="toolbar">
+        <div class="brand">PRO<br>FLUXO</div>
+        
+        <div class="tool-section">
+            <div class="section-label">GERAL</div>
+            <button class="tool-btn active" onclick="setTool('select')" title="Selecionar (V)">
+                <i class="fa-solid fa-arrow-pointer"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('text')" title="Texto Livre (T)">
+                <i class="fa-solid fa-font"></i>
+            </button>
+             <button class="tool-btn" onclick="setTool('line')" title="Conector (L)">
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </button>
+        </div>
+
+        <div class="tool-section">
+            <div class="section-label">FORMAS</div>
+            <button class="tool-btn" onclick="setTool('circle')" title="Início/Fim">
+                <i class="fa-regular fa-circle"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('rect')" title="Processo">
+                <i class="fa-regular fa-square"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('diamond')" title="Decisão">
+                <i class="fa-solid fa-diamond"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('parallelogram')" title="Dados E/S">
+                <i class="fa-solid fa-vector-square"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('database')" title="Banco de Dados">
+                <i class="fa-solid fa-database"></i>
+            </button>
+            <button class="tool-btn" onclick="setTool('document')" title="Documento">
+                <i class="fa-regular fa-file"></i>
+            </button>
+        </div>
+
+        <div class="mt-auto mb-4 w-100 d-flex flex-column align-items-center">
+            <button class="tool-btn text-danger" onclick="deleteSelected()" title="Excluir (Delete)">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+            <button class="tool-btn" onclick="resetCanvas()" title="Novo Arquivo">
+                <i class="fa-solid fa-file-circle-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div id="main-area">
+        <!-- Barra Superior -->
+        <div id="top-bar">
+            
+            <div class="d-flex align-items-center">
+                <!-- Estilo -->
+                <div class="prop-group">
+                    <div class="color-input-wrap" title="Cor da Linha/Texto">
+                        <i class="fa-solid fa-pen" style="font-size:0.8rem; color:#64748b;"></i>
+                        <input type="color" id="strokeColor" value="#1e293b" onchange="updateProp('stroke', this.value)">
+                    </div>
+                    <div class="color-input-wrap" title="Cor de Preenchimento">
+                        <i class="fa-solid fa-fill" style="font-size:0.8rem; color:#64748b;"></i>
+                        <input type="color" id="fillColor" value="#ffffff" onchange="updateProp('fill', this.value)">
+                    </div>
+                </div>
+
+                <!-- Texto -->
+                <div class="prop-group">
+                    <div class="d-flex align-items-center gap-2 me-3">
+                        <i class="fa-solid fa-text-height text-secondary" style="font-size: 0.8rem;"></i>
+                        <input type="number" id="fontSize" value="14" min="8" max="72" 
+                               style="width:50px; border:1px solid #e2e8f0; border-radius:6px; padding:4px;"
+                               onchange="updateProp('fontSize', this.value)">
+                    </div>
+
+                    <div class="btn-toggle-group">
+                        <button class="btn-toggle" id="align-left" onclick="updateProp('textAlign', 'left')"><i class="fa-solid fa-align-left"></i></button>
+                        <button class="btn-toggle active" id="align-center" onclick="updateProp('textAlign', 'center')"><i class="fa-solid fa-align-center"></i></button>
+                        <button class="btn-toggle" id="align-right" onclick="updateProp('textAlign', 'right')"><i class="fa-solid fa-align-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Status de Salvamento -->
+                <div id="save-status">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Salvo
+                </div>
+            </div>
+
+            <!-- Exportar -->
+            <button class="btn btn-dark btn-sm rounded-pill px-4 fw-medium" onclick="exportImage()">
+                <i class="fa-solid fa-download me-2"></i>Baixar PNG
+            </button>
+        </div>
+
+        <!-- Canvas -->
+        <div id="canvas-container">
+            <canvas id="flowCanvas"></canvas>
+            <div class="shortcut-hint">
+                Shift+Click: Multisseleção | Arrastar Fundo: Caixa de Seleção | Ctrl+A: Tudo
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * FLUXODESIGN PRO - CORE ENGINE 4.0
+         * Suporte a Multisseleção e Grupos.
+         */
+        
+        const canvas = document.getElementById('flowCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvas-container');
+        const saveStatus = document.getElementById('save-status');
+
+        // --- Estado da Aplicação ---
+        let shapes = [];
+        let currentTool = 'select';
+        
+        // --- Multisseleção ---
+        let selectedShapes = []; // Array de referências aos objetos selecionados
+        let selectionBox = null; // {x, y, w, h}
+        
+        // Controle de Mouse
+        let isDragging = false;
+        let isResizing = false;
+        let isDrawing = false;
+        let isSelectingBox = false;
+        let resizeHandle = null; 
+        
+        let startX, startY;
+        let activeShape = null; // Usado para redimensionamento individual
+        
+        // Configurações Padrão
+        let style = {
+            stroke: '#1e293b',
+            fill: '#ffffff',
+            fontSize: 14,
+            textAlign: 'center'
+        };
+
+        // --- Inicialização ---
+        function init() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            loadFromStorage();
+            draw();
+        }
+
+        function resizeCanvas() {
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            draw();
+        }
+
+        // --- SISTEMA DE PERSISTÊNCIA ---
+        
+        function saveToStorage() {
+            const data = JSON.stringify(shapes);
+            localStorage.setItem('fluxoProData', data);
+            saveStatus.classList.add('show');
+            setTimeout(() => saveStatus.classList.remove('show'), 2000);
+        }
+
+        function loadFromStorage() {
+            const data = localStorage.getItem('fluxoProData');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    shapes = parsed.map(obj => {
+                        const s = new Shape(obj.x, obj.y, obj.w, obj.h, obj.type);
+                        Object.assign(s, obj);
+                        return s;
+                    });
+                } catch (e) {
+                    console.error("Erro ao carregar:", e);
+                }
+            }
+        }
+
+        function resetCanvas() {
+            if(confirm("Deseja criar um novo arquivo? O atual será apagado.")) {
+                shapes = [];
+                selectedShapes = [];
+                saveToStorage();
+                draw();
+            }
+        }
+
+        // --- CLASSE SHAPE ---
+        class Shape {
+            constructor(x, y, w, h, type) {
+                this.x = x; this.y = y;
+                this.w = w; this.h = h;
+                this.type = type;
+                this.text = type === 'line' ? '' : (type === 'text' ? 'Novo Texto' : '');
+                
+                this.strokeColor = style.stroke;
+                this.fillColor = type === 'text' ? 'transparent' : style.fill;
+                this.fontSize = style.fontSize;
+                this.textAlign = style.textAlign;
+                this.lineWidth = 2;
+            }
+
+            draw(ctx, isSelected) {
+                ctx.beginPath();
+                ctx.strokeStyle = this.strokeColor;
+                ctx.fillStyle = this.fillColor;
+                ctx.lineWidth = this.lineWidth;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+
+                if (this.type !== 'line' && this.type !== 'text') {
+                    ctx.shadowColor = "rgba(0,0,0,0.1)";
+                    ctx.shadowBlur = 10;
+                    ctx.shadowOffsetY = 4;
+                } else {
+                    ctx.shadowColor = "transparent";
+                }
+
+                // Desenho das formas (Mantido igual)
+                switch(this.type) {
+                    case 'rect': ctx.rect(this.x, this.y, this.w, this.h); break;
+                    case 'circle': 
+                        ctx.ellipse(this.x + this.w/2, this.y + this.h/2, Math.abs(this.w/2), Math.abs(this.h/2), 0, 0, 2 * Math.PI); 
+                        break;
+                    case 'diamond':
+                        ctx.moveTo(this.x + this.w/2, this.y);
+                        ctx.lineTo(this.x + this.w, this.y + this.h/2);
+                        ctx.lineTo(this.x + this.w/2, this.y + this.h);
+                        ctx.lineTo(this.x, this.y + this.h/2);
+                        ctx.closePath();
+                        break;
+                    case 'parallelogram':
+                        const skew = this.w * 0.2;
+                        ctx.moveTo(this.x + skew, this.y);
+                        ctx.lineTo(this.x + this.w, this.y);
+                        ctx.lineTo(this.x + this.w - skew, this.y + this.h);
+                        ctx.lineTo(this.x, this.y + this.h);
+                        ctx.closePath();
+                        break;
+                    case 'database':
+                        const eh = this.h * 0.2;
+                        ctx.moveTo(this.x, this.y + eh);
+                        ctx.lineTo(this.x, this.y + this.h - eh);
+                        ctx.ellipse(this.x + this.w/2, this.y + this.h - eh, this.w/2, eh, 0, 0, Math.PI);
+                        ctx.lineTo(this.x + this.w, this.y + eh);
+                        ctx.ellipse(this.x + this.w/2, this.y + eh, this.w/2, eh, 0, 0, -Math.PI);
+                        break;
+                    case 'document':
+                        const wave = this.h * 0.15;
+                        ctx.moveTo(this.x, this.y);
+                        ctx.lineTo(this.x + this.w, this.y);
+                        ctx.lineTo(this.x + this.w, this.y + this.h - wave);
+                        ctx.quadraticCurveTo(this.x + this.w*0.75, this.y + this.h + wave, this.x + this.w*0.5, this.y + this.h - wave/2);
+                        ctx.quadraticCurveTo(this.x + this.w*0.25, this.y + this.h - wave*2, this.x, this.y + this.h - wave);
+                        ctx.closePath();
+                        break;
+                    case 'line':
+                        const angle = Math.atan2(this.h - this.y, this.w - this.x);
+                        ctx.moveTo(this.x, this.y);
+                        ctx.lineTo(this.w, this.h);
+                        ctx.stroke();
+                        const head = 10 + (this.fontSize / 4);
+                        ctx.beginPath();
+                        ctx.moveTo(this.w, this.h);
+                        ctx.lineTo(this.w - head * Math.cos(angle - Math.PI/6), this.h - head * Math.sin(angle - Math.PI/6));
+                        ctx.lineTo(this.w - head * Math.cos(angle + Math.PI/6), this.h - head * Math.sin(angle + Math.PI/6));
+                        ctx.fillStyle = this.strokeColor;
+                        ctx.fill();
+                        break;
+                }
+
+                if (this.type !== 'line' && this.type !== 'text') {
+                    ctx.fill();
+                    ctx.stroke();
+                    if (this.type === 'database') {
+                        ctx.beginPath();
+                        ctx.ellipse(this.x + this.w/2, this.y + this.h*0.2, this.w/2, this.h*0.2, 0, 0, 2*Math.PI);
+                        ctx.stroke();
+                    }
+                }
+
+                if (this.text) {
+                    ctx.shadowColor = "transparent";
+                    ctx.fillStyle = this.type === 'text' ? this.strokeColor : "#1e293b";
+                    ctx.font = `${this.fontSize}px Inter`;
+                    ctx.textAlign = this.type === 'line' ? 'center' : this.textAlign;
+                    ctx.textBaseline = "middle";
+
+                    let tx = this.x + this.w/2;
+                    let ty = this.y + this.h/2;
+                    
+                    if (this.type === 'line') {
+                        tx = (this.x + this.w)/2;
+                        ty = (this.y + this.h)/2 - this.fontSize;
+                    } else if (this.type !== 'text') {
+                        if(this.textAlign === 'left') tx = this.x + 10;
+                        if(this.textAlign === 'right') tx = this.x + this.w - 10;
+                    } else {
+                        tx = this.x + this.w/2; 
+                        if (this.textAlign === 'left') tx = this.x;
+                        if (this.textAlign === 'right') tx = this.x + this.w;
+                    }
+
+                    const lines = this.text.split('\n');
+                    const lh = this.fontSize * 1.2;
+                    const totalH = lines.length * lh;
+                    
+                    lines.forEach((line, i) => {
+                        const ly = ty - (totalH/2) + (i*lh) + (lh/2);
+                        ctx.fillText(line, tx, ly);
+                    });
+                }
+
+                if (isSelected) {
+                    ctx.shadowColor = "transparent";
+                    ctx.strokeStyle = "#4f46e5";
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([4, 4]);
+                    
+                    // Bounding Box
+                    if (this.type === 'line') {
+                        this.drawHandle(ctx, this.x, this.y);
+                        this.drawHandle(ctx, this.w, this.h);
+                    } else {
+                        ctx.strokeRect(this.x - 4, this.y - 4, this.w + 8, this.h + 8);
+                        // Apenas desenha handles se for o único selecionado (para evitar poluição visual em grupo)
+                        if (selectedShapes.length === 1) {
+                            this.drawHandle(ctx, this.x - 4, this.y - 4); 
+                            this.drawHandle(ctx, this.x + this.w + 4, this.y - 4); 
+                            this.drawHandle(ctx, this.x - 4, this.y + this.h + 4); 
+                            this.drawHandle(ctx, this.x + this.w + 4, this.y + this.h + 4); 
+                        }
+                    }
+                    ctx.setLineDash([]);
+                }
+            }
+
+            drawHandle(ctx, x, y) {
+                ctx.fillStyle = "#fff";
+                ctx.strokeStyle = "#4f46e5";
+                ctx.setLineDash([]);
+                ctx.fillRect(x - 4, y - 4, 8, 8);
+                ctx.strokeRect(x - 4, y - 4, 8, 8);
+            }
+
+            contains(mx, my) {
+                const p = 10; 
+                if (this.type === 'line') {
+                    const A = mx - this.x; const B = my - this.y;
+                    const C = this.w - this.x; const D = this.h - this.y;
+                    const dot = A*C + B*D; const len_sq = C*C + D*D;
+                    let param = -1;
+                    if (len_sq !== 0) param = dot / len_sq;
+                    let xx, yy;
+                    if (param < 0) { xx = this.x; yy = this.y; }
+                    else if (param > 1) { xx = this.w; yy = this.h; }
+                    else { xx = this.x + param*C; yy = this.y + param*D; }
+                    const dist = Math.sqrt((mx-xx)**2 + (my-yy)**2);
+                    return dist < p;
+                }
+                
+                let rx = this.x, ry = this.y, rw = this.w, rh = this.h;
+                if (rw < 0) { rx += rw; rw = -rw; }
+                if (rh < 0) { ry += rh; rh = -rh; }
+                
+                return (mx >= rx - p && mx <= rx + rw + p && my >= ry - p && my <= ry + rh + p);
+            }
+
+            getHandle(mx, my) {
+                // Redimensionamento só funciona se apenas 1 objeto estiver selecionado
+                if (selectedShapes.length > 1) return null;
+
+                const s = 8;
+                if (this.type === 'line') {
+                    if (Math.abs(mx - this.x) < s && Math.abs(my - this.y) < s) return 'start';
+                    if (Math.abs(mx - this.w) < s && Math.abs(my - this.h) < s) return 'end';
+                } else {
+                    let x1 = this.x, y1 = this.y, x2 = this.x + this.w, y2 = this.y + this.h;
+                    if (Math.abs(mx - x1) < s && Math.abs(my - y1) < s) return 'nw';
+                    if (Math.abs(mx - x2) < s && Math.abs(my - y1) < s) return 'ne';
+                    if (Math.abs(mx - x1) < s && Math.abs(my - y2) < s) return 'sw';
+                    if (Math.abs(mx - x2) < s && Math.abs(my - y2) < s) return 'se';
+                }
+                return null;
+            }
+        }
+
+        // --- INTERAÇÃO (Eventos) ---
+
+        function getPos(e) {
+            const r = canvas.getBoundingClientRect();
+            return { x: e.clientX - r.left, y: e.clientY - r.top };
+        }
+
+        canvas.addEventListener('mousedown', e => {
+            const pos = getPos(e);
+            
+            // 1. Tentar pegar Handle de Resize (apenas se 1 item selecionado)
+            if (selectedShapes.length === 1) {
+                const s = selectedShapes[0];
+                const handle = s.getHandle(pos.x, pos.y);
+                if (handle) {
+                    isResizing = true;
+                    resizeHandle = handle;
+                    activeShape = s;
+                    return;
+                }
+            }
+
+            // 2. Lógica de Seleção
+            if (currentTool === 'select') {
+                // Checa se clicou em algum objeto
+                let hitShape = null;
+                for (let i = shapes.length - 1; i >= 0; i--) {
+                    if (shapes[i].contains(pos.x, pos.y)) {
+                        hitShape = shapes[i];
+                        break;
+                    }
+                }
+
+                if (hitShape) {
+                    // Clicou em um objeto
+                    const isAlreadySelected = selectedShapes.includes(hitShape);
+                    
+                    if (e.ctrlKey || e.shiftKey) {
+                        // Modo Adição/Remoção (Ctrl/Shift)
+                        if (isAlreadySelected) {
+                            // Remove da seleção
+                            selectedShapes = selectedShapes.filter(s => s !== hitShape);
+                        } else {
+                            // Adiciona à seleção
+                            selectedShapes.push(hitShape);
+                        }
+                    } else {
+                        // Clique normal
+                        if (!isAlreadySelected) {
+                            // Se clicou num não selecionado, limpa e seleciona só ele
+                            selectedShapes = [hitShape];
+                        }
+                        // Se já estava selecionado, mantém a seleção (para permitir arrastar grupo)
+                    }
+
+                    // Prepara para arrastar o grupo
+                    isDragging = true;
+                    startX = pos.x;
+                    startY = pos.y;
+                    
+                    // Salva posição original de TODOS os selecionados para mover em delta
+                    selectedShapes.forEach(s => {
+                        s.origX = s.x; s.origY = s.y;
+                        s.origW = s.w; s.origH = s.h;
+                    });
+                    
+                    if (selectedShapes.length === 1) updateUIFromShape(selectedShapes[0]);
+
+                } else {
+                    // Clicou no vazio
+                    if (!e.ctrlKey && !e.shiftKey) {
+                        selectedShapes = []; // Limpa seleção
+                    }
+                    // Inicia Caixa de Seleção
+                    isSelectingBox = true;
+                    startX = pos.x;
+                    startY = pos.y;
+                    selectionBox = { x: startX, y: startY, w: 0, h: 0 };
+                }
+                
+                draw();
+            }
+            // 3. Criar Novo Objeto
+            else {
+                isDrawing = true;
+                startX = pos.x;
+                startY = pos.y;
+                const newShape = new Shape(startX, startY, 0, 0, currentTool);
+                
+                if (currentTool === 'line') {
+                    newShape.w = startX;
+                    newShape.h = startY;
+                }
+                
+                shapes.push(newShape);
+                selectedShapes = [newShape]; // Já seleciona o novo
+                activeShape = newShape;
+            }
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            const pos = getPos(e);
+
+            // Cursor Style
+            if (!isDrawing && !isDragging && !isResizing && !isSelectingBox) {
+                const hit = shapes.some(s => s.contains(pos.x, pos.y));
+                canvas.style.cursor = hit ? 'move' : (currentTool === 'select' ? 'default' : 'crosshair');
+            }
+
+            // Ações
+            if (isSelectingBox) {
+                selectionBox.w = pos.x - startX;
+                selectionBox.h = pos.y - startY;
+                draw();
+            }
+            else if (isResizing && activeShape) {
+                const s = activeShape;
+                if (s.type === 'line') {
+                    if (resizeHandle === 'start') { s.x = pos.x; s.y = pos.y; }
+                    else { s.w = pos.x; s.h = pos.y; }
+                } else {
+                    if (resizeHandle.includes('e')) s.w = pos.x - s.x;
+                    if (resizeHandle.includes('s')) s.h = pos.y - s.y;
+                    if (resizeHandle.includes('w')) {
+                        const right = s.x + s.w; s.x = pos.x; s.w = right - pos.x;
+                    }
+                    if (resizeHandle.includes('n')) {
+                        const bot = s.y + s.h; s.y = pos.y; s.h = bot - pos.y;
+                    }
+                }
+                draw();
+            }
+            else if (isDragging && selectedShapes.length > 0) {
+                // Move todos os selecionados pelo mesmo Delta
+                const dx = pos.x - startX;
+                const dy = pos.y - startY;
+                
+                selectedShapes.forEach(s => {
+                    if (s.type === 'line') {
+                        s.x = s.origX + dx; s.y = s.origY + dy;
+                        s.w = s.origW + dx; s.h = s.origH + dy;
+                    } else {
+                        s.x = s.origX + dx; s.y = s.origY + dy;
+                    }
+                });
+                draw();
+            }
+            else if (isDrawing && activeShape) {
+                if (currentTool === 'line') {
+                    activeShape.w = pos.x;
+                    activeShape.h = pos.y;
+                } else if (currentTool !== 'text') {
+                    activeShape.w = pos.x - startX;
+                    activeShape.h = pos.y - startY;
+                }
+                draw();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            
+            if (isSelectingBox) {
+                // Finaliza caixa de seleção: encontra objetos dentro
+                // Normaliza caixa (para funcionar se arrastou pra trás)
+                let bx = selectionBox.x, by = selectionBox.y, bw = selectionBox.w, bh = selectionBox.h;
+                if (bw < 0) { bx += bw; bw = -bw; }
+                if (bh < 0) { by += bh; bh = -bh; }
+
+                // Adiciona à seleção objetos que colidem com a caixa
+                shapes.forEach(s => {
+                    // Checagem simples de caixa dentro de caixa
+                    // Normaliza shape
+                    let sx = s.x, sy = s.y, sw = s.w, sh = s.h;
+                    if(s.type === 'line') { 
+                        sx = Math.min(s.x, s.w); sy = Math.min(s.y, s.h);
+                        sw = Math.abs(s.w - s.x); sh = Math.abs(s.h - s.y);
+                    } else {
+                         if (sw < 0) { sx += sw; sw = -sw; }
+                         if (sh < 0) { sy += sh; sh = -sh; }
+                    }
+
+                    // AABB Collision (Caixa de Seleção vs Objeto)
+                    if (bx < sx + sw && bx + bw > sx && by < sy + sh && by + bh > sy) {
+                        if (!selectedShapes.includes(s)) {
+                            selectedShapes.push(s);
+                        }
+                    }
+                });
+            }
+
+            if (isDrawing) {
+                const s = activeShape;
+                if (currentTool !== 'text' && Math.abs(s.w) < 5 && Math.abs(s.h) < 5 && s.type !== 'line') {
+                    s.w = 120; s.h = 60; 
+                    s.x -= 60; s.y -= 30;
+                }
+                if (s.type !== 'line') {
+                    if (s.w < 0) { s.x += s.w; s.w *= -1; }
+                    if (s.h < 0) { s.y += s.h; s.h *= -1; }
+                }
+                if (currentTool === 'text') {
+                    openTextEditor(s);
+                    setTool('select');
+                } else if (currentTool !== 'select') {
+                    setTool('select');
+                }
+            }
+
+            if (isDragging || isResizing || isDrawing) saveToStorage();
+
+            isDragging = false;
+            isResizing = false;
+            isDrawing = false;
+            isSelectingBox = false;
+            selectionBox = null;
+            activeShape = null;
+            resizeHandle = null;
+            draw();
+        });
+
+        // --- EDIÇÃO DE TEXTO ---
+
+        canvas.addEventListener('dblclick', e => {
+            const pos = getPos(e);
+            for (let i = shapes.length - 1; i >= 0; i--) {
+                if (shapes[i].contains(pos.x, pos.y)) {
+                    openTextEditor(shapes[i]);
+                    break;
+                }
+            }
+        });
+
+        function openTextEditor(shape) {
+            const input = document.createElement('textarea');
+            input.className = 'floating-textarea';
+            input.value = shape.text;
+            
+            input.style.color = shape.type === 'text' ? shape.strokeColor : '#1e293b';
+            input.style.fontSize = shape.fontSize + 'px';
+            input.style.textAlign = shape.textAlign;
+            
+            const rect = canvas.getBoundingClientRect();
+            let ix = shape.x, iy = shape.y, iw = shape.w, ih = shape.h;
+
+            if (shape.type === 'line') {
+                ix = (shape.x + shape.w)/2 - 60; iy = (shape.y + shape.h)/2 - 20;
+                iw = 120; ih = 40;
+            } else if (shape.type === 'text') {
+                ix = shape.x - 5; iy = shape.y - 5;
+                iw = Math.max(shape.w + 10, 100); ih = Math.max(shape.h + 10, 30);
+            }
+
+            input.style.left = (rect.left + ix) + 'px';
+            input.style.top = (rect.top + iy) + 'px';
+            input.style.width = Math.max(Math.abs(iw), 50) + 'px';
+            input.style.height = Math.max(Math.abs(ih), 30) + 'px';
+
+            document.body.appendChild(input);
+            input.focus();
+
+            const close = () => {
+                shape.text = input.value;
+                if (shape.type === 'text') {
+                    const lines = input.value.split('\n');
+                    const maxLine = Math.max(...lines.map(l => l.length));
+                    shape.w = Math.max(40, maxLine * (shape.fontSize * 0.6));
+                    shape.h = Math.max(20, lines.length * (shape.fontSize * 1.2));
+                }
+                input.remove();
+                saveToStorage();
+                draw();
+            };
+
+            input.addEventListener('blur', close);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter' && e.ctrlKey) input.blur();
+            });
+        }
+
+        // --- CONTROLES DE UI ---
+
+        function setTool(name) {
+            currentTool = name;
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.tool-btn[onclick*="${name}"]`);
+            if(btn) btn.classList.add('active');
+            selectedShapes = [];
+            draw();
+        }
+
+        function updateProp(key, val) {
+            style[key] = val;
+            if (selectedShapes.length > 0) {
+                selectedShapes.forEach(s => {
+                    s[key] = val;
+                    if(key === 'fontSize') s.fontSize = parseInt(val);
+                });
+                saveToStorage();
+                draw();
+            }
+            if (key === 'textAlign') {
+                document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+                document.getElementById(`align-${val}`).classList.add('active');
+            }
+        }
+
+        function updateUIFromShape(s) {
+            document.getElementById('strokeColor').value = s.strokeColor;
+            document.getElementById('fillColor').value = s.fillColor;
+            document.getElementById('fontSize').value = s.fontSize;
+            document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+            const alignBtn = document.getElementById(`align-${s.textAlign}`);
+            if(alignBtn) alignBtn.classList.add('active');
+        }
+
+        function deleteSelected() {
+            if (selectedShapes.length > 0) {
+                // Filtra shapes mantendo apenas os que NÃO estão na lista de selecionados
+                shapes = shapes.filter(s => !selectedShapes.includes(s));
+                selectedShapes = [];
+                saveToStorage();
+                draw();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Desenha Formas
+            shapes.forEach(s => {
+                const isSelected = selectedShapes.includes(s);
+                s.draw(ctx, isSelected);
+            });
+
+            // Desenha Caixa de Seleção (Se estiver ativa)
+            if (isSelectingBox && selectionBox) {
+                ctx.strokeStyle = "rgba(79, 70, 229, 0.8)";
+                ctx.fillStyle = "rgba(79, 70, 229, 0.1)";
+                ctx.lineWidth = 1;
+                ctx.setLineDash([]); // Borda sólida
+                ctx.fillRect(selectionBox.x, selectionBox.y, selectionBox.w, selectionBox.h);
+                ctx.strokeRect(selectionBox.x, selectionBox.y, selectionBox.w, selectionBox.h);
+            }
+        }
+
+        function exportImage() {
+            const temp = document.createElement('canvas');
+            temp.width = canvas.width;
+            temp.height = canvas.height;
+            const tCtx = temp.getContext('2d');
+            tCtx.fillStyle = "#ffffff";
+            tCtx.fillRect(0,0, temp.width, temp.height);
+            shapes.forEach(s => s.draw(tCtx, false));
+            const link = document.createElement('a');
+            link.download = 'fluxograma-pro.png';
+            link.href = temp.toDataURL();
+            link.click();
+        }
+
+        // Teclado (Atalhos)
+        window.addEventListener('keydown', e => {
+            if (e.key === 'Delete') deleteSelected();
+            
+            // Ctrl + A (Selecionar Tudo)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                e.preventDefault(); // Impede selecionar texto da página
+                selectedShapes = [...shapes]; // Seleciona todos
+                draw();
+            }
+        });
+
+        init();
+
+    </script>
+</body>
+</html>

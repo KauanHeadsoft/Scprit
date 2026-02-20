@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB- Headsoft Edition</title>
+    
+    <!-- Bibliotecas Externas (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- ESTILOS GLOBAIS (CSS) -->
+    <style>
+        :root {
+            --bg-app: #f8fafc;
+            --bg-sidebar: #0f172a;
+            --primary: #2563eb;
+            --border-color: #e2e8f0;
+        }
+        
+        body { background-color: var(--bg-app); font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Scrollbar Premium */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Utilitários de Animação */
+        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+        .animate-slide-in { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* Estilo para Cartões de Conexão */
+        .connection-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid transparent;
+        }
+        .connection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-left-color: var(--primary);
+        }
+
+        /* Tabs */
+        .tab-btn {
+            position: relative;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        /* Destaque de busca */
+        .highlight-match {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // ==========================================
+        // MÓDULO 1: UTILITÁRIOS E CONSTANTES
+        // ==========================================
+        const { useState, useMemo, useEffect, useRef, useCallback } = React;
+
+        const Icon = ({ name, size = 16, className = "" }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (!window.lucide || !ref.current) return;
+                ref.current.innerHTML = `<i data-lucide="${name}" width="${size}" height="${size}" class="${className}"></i>`;
+                window.lucide.createIcons({ root: ref.current, attrs: { class: className, width: size, height: size } });
+            }, [name, size, className]);
+            return <span ref={ref} style={{ display: 'inline-flex', verticalAlign: 'middle' }}></span>;
+        };
+
+        // ==========================================
+        // MÓDULO 2: COMPONENTES UI
+        // ==========================================
+
+        const TableTypeBadge = ({ name }) => {
+            if (!name) return null;
+            if (name.startsWith('cad_')) return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">Cadastro</span>;
+            if (name.startsWith('mov_')) return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-700 border border-amber-200">Movimentação</span>;
+            if (name.startsWith('aux_')) return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-700 border border-purple-200">Auxiliar</span>;
+            return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 text-slate-600 border border-slate-200">Sistema</span>;
+        };
+
+        const SqlModal = ({ sql, onClose }) => {
+            if (!sql) return null;
+            const copy = () => { navigator.clipboard.writeText(sql); onClose(); };
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose}></div>
+                    <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-2xl animate-fade-in overflow-hidden border border-slate-200">
+                        <div className="flex justify-between items-center px-6 py-4 bg-slate-50 border-b border-slate-200">
+                            <h3 className="font-bold text-slate-700 flex items-center gap-2"><Icon name="code" /> Gerador de SQL</h3>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><Icon name="x" /></button>
+                        </div>
+                        <div className="p-0 bg-[#1e293b]"><pre className="text-emerald-400 font-mono text-sm p-6 overflow-x-auto whitespace-pre-wrap">{sql}</pre></div>
+                        <div className="p-4 bg-white border-t border-slate-200 flex justify-end gap-3">
+                            <button onClick={onClose} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">Fechar</button>
+                            <button onClick={copy} className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 font-medium shadow-lg shadow-blue-500/30"><Icon name="copy" size={16} /> Copiar Código</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Modal para Seleção de Tabela (Comparação)
+        const SelectionModal = ({ isOpen, onClose, tables, onSelect }) => {
+            const [filter, setFilter] = useState('');
+            if (!isOpen) return null;
+            
+            const filtered = tables.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()));
+
+            return (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose}></div>
+                    <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md animate-fade-in overflow-hidden border border-slate-200 flex flex-col max-h-[80vh]">
+                        <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
+                            <h3 className="font-bold text-slate-700 mb-2">Comparar com qual tabela?</h3>
+                            <div className="relative">
+                                <span className="absolute left-3 top-2.5 text-slate-400"><Icon name="search" size={14} /></span>
+                                <input autoFocus type="text" placeholder="Buscar tabela..." value={filter} onChange={e => setFilter(e.target.value)} className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:border-blue-500" />
+                            </div>
+                        </div>
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
+                            {filtered.map(t => (
+                                <button key={t.name} onClick={() => onSelect(t)} className="w-full text-left px-3 py-2 rounded text-xs font-mono hover:bg-blue-50 hover:text-blue-700 flex items-center gap-2 transition-colors">
+                                    <span className={`w-1.5 h-1.5 rounded-full ${t.name.startsWith('cad_') ? 'bg-emerald-400' : t.name.startsWith('mov_') ? 'bg-amber-400' : 'bg-slate-300'}`}></span>
+                                    {t.name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Drawer = ({ title, isOpen, onClose, children, width = "w-[600px]" }) => {
+            if (!isOpen) return null;
+            useEffect(() => {
+                const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+                window.addEventListener('keydown', handleEsc);
+                return () => window.removeEventListener('keydown', handleEsc);
+            }, [onClose]);
+            return (
+                <div className="fixed inset-0 z-50 flex justify-end">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-fade-in" onClick={onClose}></div>
+                    <div className={`relative ${width} h-full bg-white shadow-2xl animate-slide-in flex flex-col border-l border-slate-200`}>
+                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                            <h3 className="font-bold text-slate-800 text-lg truncate pr-4">{title}</h3>
+                            <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500"><Icon name="x" size={20} /></button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-0 bg-white custom-scrollbar">{children}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ContextMenu = ({ x, y, visible, targetName, onAction, onClose }) => {
+            const menuRef = useRef(null);
+            useEffect(() => {
+                const handleClickOutside = (event) => { if (menuRef.current && !menuRef.current.contains(event.target)) onClose(); };
+                if (visible) document.addEventListener("mousedown", handleClickOutside);
+                return () => document.removeEventListener("mousedown", handleClickOutside);
+            }, [visible, onClose]);
+            if (!visible) return null;
+            return (
+                <div ref={menuRef} className="fixed bg-white border border-slate-200 shadow-2xl rounded-lg py-1 w-60 z-[100] animate-fade-in" style={{ top: Math.min(y, window.innerHeight - 300), left: Math.min(x, window.innerWidth - 240) }}>
+                    <div className="px-4 py-2 border-b border-slate-100 bg-slate-50">
+                        <span className="text-[10px] uppercase font-bold text-slate-400">Ações para</span>
+                        <div className="font-bold text-slate-700 text-sm truncate">{targetName}</div>
+                    </div>
+                    <div className="p-1 space-y-0.5">
+                        <button onClick={() => onAction('navigate')} className="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded flex items-center gap-2"><Icon name="arrow-right-circle" /> Ir para Tabela</button>
+                        <button onClick={() => onAction('favorite')} className="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-amber-50 hover:text-amber-600 rounded flex items-center gap-2"><Icon name="star" /> Favoritar/Desfavoritar</button>
+                        <button onClick={() => onAction('sql')} className="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 rounded flex items-center gap-2"><Icon name="code" /> Gerar SQL Join</button>
+                        <div className="h-px bg-slate-100 my-1"></div>
+                        <button onClick={() => onAction('copy')} className="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded flex items-center gap-2"><Icon name="copy" /> Copiar Nome</button>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // MÓDULO 3: APLICAÇÃO PRINCIPAL
+        // ==========================================
+
+        function App() {
+            // --- ESTADOS PERSISTENTES (LOCALSTORAGE) ---
+            const [tables, setTables] = useState(() => {
+                const saved = localStorage.getItem('db_architect_tables');
+                return saved ? JSON.parse(saved) : [];
+            });
+            const [favorites, setFavorites] = useState(() => {
+                const saved = localStorage.getItem('db_architect_favorites');
+                return saved ? JSON.parse(saved) : [];
+            });
+
+            // Recupera a última tabela selecionada
+            const [selectedTable, setSelectedTable] = useState(() => {
+                const savedName = localStorage.getItem('db_architect_selected_table_name');
+                if (savedName && tables.length > 0) {
+                    return tables.find(t => t.name === savedName) || null;
+                }
+                return null;
+            });
+
+            const [activeTab, setActiveTab] = useState(() => {
+                return localStorage.getItem('db_architect_active_tab') || 'structure';
+            });
+            
+            const [history, setHistory] = useState([]);
+
+            const [searchTerm, setSearchTerm] = useState("");
+            const [columnSearch, setColumnSearch] = useState("");
+            const [fileName, setFileName] = useState("");
+            const [error, setError] = useState(null);
+            const [notification, setNotification] = useState(null);
+            const [generatedSql, setGeneratedSql] = useState(null);
+
+            const [previewTable, setPreviewTable] = useState(null); 
+            const [previewMode, setPreviewMode] = useState('structure');
+            const [ctxMenu, setCtxMenu] = useState({ visible: false, x: 0, y: 0, target: null });
+            
+            const [isCompareSelectionOpen, setIsCompareSelectionOpen] = useState(false);
+            const [comparisonResult, setComparisonResult] = useState(null);
+
+            const fileInputRef = useRef(null);
+
+            // --- EFEITOS PARA PERSISTÊNCIA ---
+            useEffect(() => {
+                if (tables.length > 0) localStorage.setItem('db_architect_tables', JSON.stringify(tables));
+            }, [tables]);
+
+            useEffect(() => {
+                localStorage.setItem('db_architect_favorites', JSON.stringify(favorites));
+            }, [favorites]);
+
+            // Salva a tabela selecionada sempre que mudar
+            useEffect(() => {
+                if (selectedTable) {
+                    localStorage.setItem('db_architect_selected_table_name', selectedTable.name);
+                } else {
+                    localStorage.removeItem('db_architect_selected_table_name');
+                }
+                setColumnSearch(""); // Limpa busca de coluna ao trocar
+            }, [selectedTable]);
+
+            // Salva a aba ativa (Estrutura/Ligações)
+            useEffect(() => {
+                localStorage.setItem('db_architect_active_tab', activeTab);
+            }, [activeTab]);
+
+            // --- LÓGICA DE DADOS ---
+            const toggleFavorite = (tableName) => {
+                setFavorites(prev => {
+                    if (prev.includes(tableName)) return prev.filter(t => t !== tableName);
+                    return [...prev, tableName];
+                });
+                if (!favorites.includes(tableName)) showNotification(`"${tableName}" adicionado aos favoritos`);
+            };
+
+            const clearData = () => {
+                if (confirm("Tem certeza? Isso apagará todas as tabelas e favoritos salvos.")) {
+                    localStorage.removeItem('db_architect_tables');
+                    localStorage.removeItem('db_architect_favorites');
+                    localStorage.removeItem('db_architect_selected_table_name');
+                    localStorage.removeItem('db_architect_active_tab');
+                    setTables([]);
+                    setFavorites([]);
+                    setSelectedTable(null);
+                    setHistory([]);
+                    showNotification("Dados limpos com sucesso.");
+                }
+            };
+
+            const handleFileUpload = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                setFileName(file.name);
+                setError(null);
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const text = e.target.result.trim();
+                    let parsedData = [];
+                    try {
+                        parsedData = JSON.parse(text);
+                    } catch (err) {
+                        try {
+                            const lines = text.split(/\r?\n/);
+                            lines.forEach(line => {
+                                const clean = line.trim().replace(/,$/, '');
+                                if(clean) parsedData.push(JSON.parse(clean));
+                            });
+                        } catch (err2) {
+                            const start = text.indexOf('[');
+                            const end = text.lastIndexOf('}');
+                            if (start > -1 && end > -1) {
+                                let fix = text.substring(start, end + 1);
+                                if (!fix.endsWith(']')) fix += ']';
+                                try { parsedData = JSON.parse(fix); } catch(e) {}
+                            }
+                        }
+                    }
+
+                    if (parsedData.length > 0) {
+                        processData(parsedData);
+                        showNotification("Tabelas importadas e salvas!");
+                    }
+                    else setError("Arquivo inválido. Tente novamente.");
+                };
+                reader.readAsText(file);
+            };
+
+            const processData = (rawData) => {
+                let dataArray = Array.isArray(rawData) ? rawData : (rawData.data || [rawData]);
+                const processed = [];
+                dataArray.forEach(item => {
+                    let tName = item.nomeTabela || item.Tabela || item.name;
+                    if (!tName) return;
+                    let cols = item.colunas || item.c || item.columns || [];
+                    const pCols = [];
+                    if (Array.isArray(cols)) {
+                        cols.forEach(c => {
+                            pCols.push({
+                                name: c.nomeColuna || c.Coluna || c.name,
+                                isPk: Boolean(c.isPk === true || c.isPk === 1 || c.IsPK === true),
+                                isFk: Boolean(c.isFk === true || c.isFk === 1 || c.IsFK === true)
+                            });
+                        });
+                    }
+                    if (pCols.length > 0) processed.push({ name: tName, columns: pCols });
+                });
+                setTables(processed.sort((a,b) => a.name.localeCompare(b.name)));
+            };
+
+            // --- ENGINE DE CONEXÕES ---
+            const getConnections = useCallback((currentTable) => {
+                if (!currentTable || !currentTable.columns) return [];
+                const links = [];
+                const tableMap = new Map(tables.map(t => [t.name.toLowerCase(), t]));
+
+                const findTable = (name) => {
+                    const clean = name.toLowerCase();
+                    if (tableMap.has(clean)) return tableMap.get(clean);
+                    if (tableMap.has(`cad_${clean}`)) return tableMap.get(`cad_${clean}`);
+                    if (tableMap.has(`mov_${clean}`)) return tableMap.get(`mov_${clean}`);
+                    if (tableMap.has(clean.replace(/s$/, ''))) return tableMap.get(clean.replace(/s$/, ''));
+                    return null;
+                };
+
+                currentTable.columns.forEach(col => {
+                    if (col.isFk || (col.name.startsWith("Id") && !col.isPk)) {
+                        const baseName = col.name.replace(/^Id/, "");
+                        if (baseName.length > 1) {
+                            const target = findTable(baseName);
+                            if (target && target.name !== currentTable.name) {
+                                const targetCol = target.columns.find(c => c.name === col.name);
+                                if (targetCol) {
+                                    links.push({ otherTable: target.name, myCol: col.name, otherCol: targetCol.name, type: 'Link Direto' });
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const myPk = currentTable.columns.find(c => c.isPk);
+                if (myPk) {
+                    tables.forEach(t => {
+                        if (t.name === currentTable.name) return;
+                        const matchingCol = t.columns.find(c => c.name === myPk.name);
+                        if (matchingCol) {
+                            links.push({ otherTable: t.name, myCol: myPk.name, otherCol: matchingCol.name, type: 'Referência' });
+                        }
+                    });
+                }
+
+                const unique = [];
+                const keys = new Set();
+                links.forEach(l => {
+                    const key = `${l.otherTable}-${l.myCol}-${l.otherCol}`;
+                    if (!keys.has(key)) { keys.add(key); unique.push(l); }
+                });
+                return unique.sort((a,b) => a.otherTable.localeCompare(b.otherTable));
+            }, [tables]);
+
+            // --- LÓGICA DE COMPARAÇÃO ---
+            const startComparison = (targetTable) => {
+                setIsCompareSelectionOpen(false);
+                if (!selectedTable || !targetTable) return;
+
+                const allConnections = getConnections(selectedTable);
+                const directLinks = allConnections.filter(c => c.otherTable === targetTable.name);
+                
+                const commonCols = [];
+                selectedTable.columns.forEach(cA => {
+                    const match = targetTable.columns.find(cB => cB.name === cA.name);
+                    if (match && !directLinks.find(l => l.myCol === cA.name)) {
+                        commonCols.push(cA.name);
+                    }
+                });
+
+                setComparisonResult({
+                    tableA: selectedTable,
+                    tableB: targetTable,
+                    directLinks,
+                    commonCols
+                });
+            };
+
+            // --- COMPUTADOS (FILTROS E FAVORITOS) ---
+            const { favTables, otherTables } = useMemo(() => {
+                const lower = searchTerm.toLowerCase();
+                const filtered = tables.filter(t => 
+                    !searchTerm || 
+                    t.name.toLowerCase().includes(lower) || 
+                    t.columns.some(c => c.name.toLowerCase().includes(lower))
+                );
+
+                const favs = [];
+                const others = [];
+
+                filtered.forEach(t => {
+                    if (favorites.includes(t.name)) favs.push(t);
+                    else others.push(t);
+                });
+
+                return { favTables: favs, otherTables: others };
+            }, [tables, searchTerm, favorites]);
+
+            const currentConnections = useMemo(() => getConnections(selectedTable), [selectedTable, getConnections]);
+            const previewConnectionsList = useMemo(() => getConnections(previewTable), [previewTable, getConnections]);
+
+            const filteredColumns = useMemo(() => {
+                if (!selectedTable) return [];
+                if (!columnSearch) return selectedTable.columns;
+                return selectedTable.columns.filter(c => c.name.toLowerCase().includes(columnSearch.toLowerCase()));
+            }, [selectedTable, columnSearch]);
+
+            // --- AÇÕES ---
+            const selectAndNavigate = (table) => {
+                if (!table) return;
+                setHistory(prev => {
+                    const newHist = [...prev, table.name].filter((item, index, self) => self.indexOf(item) === index);
+                    if (newHist.length > 5) newHist.shift();
+                    return newHist;
+                });
+                setSelectedTable(table);
+            };
+
+            const generateSQL = (conn, sourceTableName) => {
+                if (!conn || !sourceTableName) return;
+                const sql = `-- Join gerado automaticamente\nSELECT \n    t1.*\nFROM ${sourceTableName} t1\nLEFT JOIN ${conn.otherTable} t2 ON t1.${conn.myCol} = t2.${conn.otherCol}`;
+                setGeneratedSql(sql);
+            };
+
+            const handleContextMenuAction = (action) => {
+                const targetName = ctxMenu.target;
+                setCtxMenu({ ...ctxMenu, visible: false });
+                const t = tables.find(x => x.name === targetName);
+
+                if (action === 'navigate') { if (t) selectAndNavigate(t); }
+                if (action === 'inspect') { if (t) { setPreviewTable(t); setPreviewMode('structure'); } }
+                if (action === 'preview') { if (t) { setPreviewTable(t); setPreviewMode('connections'); } }
+                if (action === 'copy') { navigator.clipboard.writeText(targetName); showNotification(`Nome copiado!`); }
+                if (action === 'favorite') { toggleFavorite(targetName); }
+                if (action === 'sql') { 
+                    const conn = currentConnections.find(c => c.otherTable === targetName);
+                    if (conn) generateSQL(conn, selectedTable.name);
+                    else showNotification("Não foi possível determinar a chave para o SQL.");
+                }
+            };
+
+            const showNotification = (msg) => {
+                setNotification(msg);
+                setTimeout(() => setNotification(null), 3000);
+            };
+
+            // --- RENDER ---
+            return (
+                <div className="flex h-screen w-full bg-slate-50 text-slate-800 font-sans overflow-hidden">
+                    
+                    <ContextMenu 
+                        visible={ctxMenu.visible} 
+                        x={ctxMenu.x} 
+                        y={ctxMenu.y} 
+                        targetName={ctxMenu.target}
+                        onClose={() => setCtxMenu({ ...ctxMenu, visible: false })}
+                        onAction={handleContextMenuAction}
+                    />
+
+                    <SqlModal sql={generatedSql} onClose={() => setGeneratedSql(null)} />
+                    
+                    <SelectionModal 
+                        isOpen={isCompareSelectionOpen} 
+                        onClose={() => setIsCompareSelectionOpen(false)} 
+                        tables={tables.filter(t => t.name !== selectedTable?.name)}
+                        onSelect={startComparison}
+                    />
+
+                    {notification && (
+                        <div className="fixed bottom-6 right-6 bg-slate-800 text-white px-4 py-2 rounded shadow-lg z-[200] animate-fade-in flex items-center gap-2">
+                            <Icon name="check-circle" size={16} className="text-emerald-400" />
+                            {notification}
+                        </div>
+                    )}
+
+                    {/* DRAWER DE PREVIEW */}
+                    <Drawer 
+                        title={previewMode === 'structure' ? `Estrutura: ${previewTable?.name}` : `Ligações: ${previewTable?.name}`} 
+                        isOpen={!!previewTable} 
+                        onClose={() => setPreviewTable(null)}
+                        width="w-[600px]"
+                    >
+                        {previewTable && (
+                            <div className="p-6">
+                                <div className="mb-4 p-3 bg-blue-50 text-blue-800 rounded text-sm border border-blue-100 flex items-center gap-2">
+                                    <Icon name="info" size={16} /> 
+                                    <span>Visualização rápida. <button onClick={() => { selectAndNavigate(previewTable); setPreviewTable(null); }} className="underline font-bold">Abrir Completo</button></span>
+                                </div>
+                                {previewMode === 'structure' ? (
+                                    <table className="w-full text-sm text-left border-collapse">
+                                        <thead><tr className="border-b border-slate-200 text-slate-500"><th className="py-2">Coluna</th><th className="py-2 text-right">Chaves</th></tr></thead>
+                                        <tbody>
+                                            {previewTable.columns.map((col, idx) => (
+                                                <tr key={idx} className="border-b border-slate-100 hover:bg-slate-50">
+                                                    <td className="py-2 font-mono text-slate-700">{col.name}</td>
+                                                    <td className="py-2 text-right">
+                                                        {col.isPk && <span className="inline-block px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-700 text-[10px] font-bold mr-1">PK</span>}
+                                                        {col.isFk && <span className="inline-block px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-bold">FK</span>}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {previewConnectionsList.map((conn, idx) => (
+                                            <div key={idx} className="bg-white border border-slate-200 rounded p-3 flex items-center justify-between text-sm shadow-sm">
+                                                <div className="flex flex-col"><span className="text-[10px] uppercase text-slate-400 font-bold">Origem</span><span className="font-mono text-blue-600 font-bold">{conn.myCol}</span></div>
+                                                <Icon name="arrow-right" className="text-slate-300" />
+                                                <div className="flex flex-col items-end"><span className="text-[10px] uppercase text-slate-400 font-bold">Destino</span><span className="font-bold text-slate-700">{conn.otherTable}</span></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </Drawer>
+
+                    {/* DRAWER DE COMPARAÇÃO */}
+                    <Drawer 
+                        title="Comparação de Tabelas" 
+                        isOpen={!!comparisonResult} 
+                        onClose={() => setComparisonResult(null)}
+                        width="w-[700px]"
+                    >
+                        {comparisonResult && (
+                            <div className="p-6">
+                                <div className="flex items-center justify-between mb-8">
+                                    <div className="text-center w-1/3">
+                                        <div className="font-bold text-lg text-slate-800 break-all">{comparisonResult.tableA.name}</div>
+                                        <div className="text-xs text-slate-400">Tabela Atual</div>
+                                    </div>
+                                    <div className="text-slate-300"><Icon name="arrow-right-left" size={24} /></div>
+                                    <div className="text-center w-1/3">
+                                        <div className="font-bold text-lg text-blue-700 break-all">{comparisonResult.tableB.name}</div>
+                                        <div className="text-xs text-slate-400">Tabela Comparada</div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div>
+                                        <h4 className="font-bold text-slate-600 mb-2 flex items-center gap-2 text-sm uppercase"><Icon name="link" size={14} /> Ligações Diretas (FK/PK)</h4>
+                                        {comparisonResult.directLinks.length > 0 ? (
+                                            <div className="space-y-2">
+                                                {comparisonResult.directLinks.map((link, i) => (
+                                                    <div key={i} className="bg-blue-50 border border-blue-100 p-3 rounded-lg flex items-center justify-between text-sm">
+                                                        <span className="font-mono font-bold text-slate-700">{link.myCol}</span>
+                                                        <span className="text-blue-400 px-2 text-xs">liga com</span>
+                                                        <span className="font-mono font-bold text-blue-700">{link.otherCol}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="text-slate-400 italic text-sm">Nenhuma chave estrangeira direta encontrada.</div>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-slate-600 mb-2 flex items-center gap-2 text-sm uppercase"><Icon name="columns" size={14} /> Colunas com mesmo nome</h4>
+                                        {comparisonResult.commonCols.length > 0 ? (
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {comparisonResult.commonCols.map((col, i) => (
+                                                    <div key={i} className="bg-slate-50 border border-slate-100 px-3 py-2 rounded text-xs font-mono text-slate-600 flex items-center gap-2">
+                                                        <div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div> {col}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="text-slate-400 italic text-sm">Nenhuma outra coluna em comum.</div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Drawer>
+
+                    {/* SIDEBAR */}
+                    <aside className="w-72 bg-[#0f172a] text-slate-300 flex flex-col shadow-xl z-10 shrink-0">
+                        <div className="p-5 border-b border-slate-700/50 flex flex-col items-center relative">
+                            <img src="https://headsoft.com.br/wp-content/uploads/2023/10/logo-PhotoRoom-1.png-PhotoRoom-1-1-768x768.png" alt="Headsoft" className="h-16 w-auto mb-2 opacity-90 hover:opacity-100 transition-opacity" />
+                            <p className="text-xs text-slate-500 font-mono">DB Headsoft v1.0</p>
+                            
+                            {/* BOTÃO DISCRETO DE SAIR/LIMPAR (SÓ APARECE SE TIVER DADOS) */}
+                            {tables.length > 0 && (
+                                <button 
+                                    onClick={clearData}
+                                    title="Trocar Banco de Dados / Limpar Tudo"
+                                    className="absolute top-4 right-4 text-slate-600 hover:text-red-400 transition-colors"
+                                >
+                                    <Icon name="log-out" size={16} />
+                                </button>
+                            )}
+                        </div>
+                        <div className="p-4">
+                            <div className="relative">
+                                <span className="absolute left-3 top-2.5 text-slate-500"><Icon name="search" size={14} /></span>
+                                <input type="text" placeholder="Buscar tabela ou coluna..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-9 pr-3 py-2 bg-slate-800/50 border border-slate-700 rounded text-sm text-slate-200 focus:outline-none focus:border-blue-500 transition-colors" />
+                            </div>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto custom-scrollbar px-2 space-y-0.5 pb-4">
+                            {/* SEÇÃO FAVORITOS */}
+                            {favTables.length > 0 && (
+                                <div className="mb-4">
+                                    <div className="px-3 py-2 text-[10px] uppercase font-bold text-amber-500 tracking-wider flex items-center gap-2">
+                                        <Icon name="star" size={10} className="fill-amber-500" /> Favoritas
+                                    </div>
+                                    {favTables.map((t, idx) => (
+                                        <div key={t.name} className="relative group">
+                                            <button 
+                                                onClick={() => selectAndNavigate(t)} 
+                                                className={`w-full text-left px-3 py-2 rounded text-xs font-mono transition-all flex items-center gap-3 border border-transparent 
+                                                ${selectedTable?.name === t.name ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'hover:bg-slate-800 text-slate-300'}`}
+                                            >
+                                                <span onClick={(e) => { e.stopPropagation(); toggleFavorite(t.name); }} className="cursor-pointer hover:scale-110 transition-transform"><Icon name="star" size={12} className="text-amber-400 fill-amber-400" /></span>
+                                                <span className="truncate flex-1">{t.name}</span>
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <div className="h-px bg-slate-700/50 my-2 mx-3"></div>
+                                </div>
+                            )}
+
+                            {/* TODAS AS TABELAS */}
+                            {otherTables.length > 0 && (
+                                <div>
+                                    <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-500 tracking-wider">Todas</div>
+                                    {otherTables.map((t, idx) => (
+                                        <div key={t.name} className="relative group">
+                                            <button 
+                                                onClick={() => selectAndNavigate(t)} 
+                                                className={`w-full text-left px-3 py-2 rounded text-xs font-mono transition-all flex items-center gap-3 border border-transparent 
+                                                ${selectedTable?.name === t.name ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+                                            >
+                                                <span onClick={(e) => { e.stopPropagation(); toggleFavorite(t.name); }} className="cursor-pointer opacity-0 group-hover:opacity-100 hover:scale-110 transition-all text-slate-600 hover:text-amber-400"><Icon name="star" size={12} /></span>
+                                                <span className={`w-1.5 h-1.5 rounded-full shrink-0 group-hover:hidden ${t.name.startsWith('cad_') ? 'bg-emerald-400' : t.name.startsWith('mov_') ? 'bg-amber-400' : 'bg-slate-500'}`}></span>
+                                                <span className="truncate flex-1">{t.name}</span>
+                                                {searchTerm && !t.name.toLowerCase().includes(searchTerm.toLowerCase()) && <span className="ml-auto text-[8px] bg-slate-700 px-1 rounded text-slate-300">COL</span>}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            
+                            {tables.length === 0 && <div className="text-center text-xs text-slate-600 mt-10">Nenhuma tabela carregada.</div>}
+                        </div>
+
+                        {/* RODAPÉ DA SIDEBAR (SÓ APARECE SE NÃO TIVER TABELAS) */}
+                        {tables.length === 0 && (
+                            <div className="p-4 border-t border-slate-700/50 space-y-2">
+                                <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept=".json,.txt" />
+                                <button onClick={() => fileInputRef.current.click()} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-xs font-medium transition-colors flex items-center justify-center gap-2"><Icon name="upload-cloud" size={14} /> Carregar Novo</button>
+                            </div>
+                        )}
+                    </aside>
+
+                    {/* MAIN AREA */}
+                    <main className="flex-1 flex flex-col bg-slate-50/50 relative overflow-hidden">
+                        
+                        {/* BREADCRUMBS */}
+                        <div className="bg-white border-b border-slate-200 px-6 py-2 flex items-center gap-2 text-xs overflow-x-auto">
+                            <span className="text-slate-400 font-bold uppercase mr-2">Caminho:</span>
+                            {history.length === 0 && <span className="text-slate-400 italic">Nenhuma seleção</span>}
+                            {history.map((h, i) => (
+                                <div key={i} className="flex items-center gap-2 whitespace-nowrap">
+                                    <button onClick={() => selectAndNavigate(tables.find(t=>t.name===h))} className={`hover:text-blue-600 hover:underline ${selectedTable?.name === h ? 'font-bold text-blue-700' : 'text-slate-500'}`}>{h}</button>
+                                    {i < history.length - 1 && <Icon name="chevron-right" size={12} className="text-slate-300" />}
+                                </div>
+                            ))}
+                        </div>
+
+                        {error && (
+                            <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-red-100 border border-red-300 text-red-800 px-6 py-3 rounded-full shadow-lg z-50 flex items-center gap-2 animate-bounce">
+                                <Icon name="alert-triangle" /> {error}
+                            </div>
+                        )}
+
+                        {selectedTable ? (
+                            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
+                                <div className="max-w-6xl mx-auto w-full p-8 animate-fade-in flex-1">
+                                    
+                                    {/* HEADER TABELA */}
+                                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6 flex justify-between items-start relative overflow-hidden">
+                                        <div className={`absolute top-0 left-0 w-1.5 h-full ${selectedTable.name.startsWith('cad_') ? 'bg-emerald-500' : selectedTable.name.startsWith('mov_') ? 'bg-amber-500' : 'bg-slate-500'}`}></div>
+                                        <div className="pl-4">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <h2 className="text-3xl font-bold text-slate-800 font-mono">{selectedTable.name}</h2>
+                                                <TableTypeBadge name={selectedTable.name} />
+                                                <button onClick={() => toggleFavorite(selectedTable.name)} className="ml-2 hover:scale-110 transition-transform">
+                                                    <Icon name="star" size={24} className={favorites.includes(selectedTable.name) ? "text-amber-400 fill-amber-400" : "text-slate-300"} />
+                                                </button>
+                                                
+                                                {/* BOTÃO DE COMPARAÇÃO */}
+                                                <button 
+                                                    onClick={() => setIsCompareSelectionOpen(true)}
+                                                    className="ml-2 flex items-center gap-2 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full text-xs font-bold transition-colors border border-slate-200"
+                                                    title="Comparar com outra tabela"
+                                                >
+                                                    <Icon name="scale" size={14} /> Comparar
+                                                </button>
+                                            </div>
+                                            <div className="flex items-center gap-4 text-sm text-slate-500">
+                                                <span className="flex items-center gap-1"><Icon name="columns" size={14} /> {selectedTable.columns.length} colunas</span>
+                                                <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                                <span className="flex items-center gap-1"><Icon name="link" size={14} /> {currentConnections.length} conexões</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* TABS */}
+                                    <div className="flex items-center border-b border-slate-200 mb-6 bg-white rounded-t-lg px-4 pt-2">
+                                        <button onClick={() => setActiveTab('structure')} className={`tab-btn px-6 py-3 text-sm font-medium flex items-center gap-2 ${activeTab === 'structure' ? 'active' : 'text-slate-500 hover:text-slate-700'}`}><Icon name="layout-list" size={16} /> Estrutura</button>
+                                        <button onClick={() => setActiveTab('connections')} className={`tab-btn px-6 py-3 text-sm font-medium flex items-center gap-2 ${activeTab === 'connections' ? 'active' : 'text-slate-500 hover:text-slate-700'}`}><Icon name="git-merge" size={16} /> Ligações</button>
+                                    </div>
+
+                                    {/* TAB: ESTRUTURA */}
+                                    {activeTab === 'structure' && (
+                                        <div className="bg-white rounded-b-lg rounded-tr-lg border border-slate-200 shadow-sm overflow-hidden animate-fade-in flex flex-col">
+                                            {/* BARRA DE BUSCA DE COLUNA */}
+                                            <div className="p-3 border-b border-slate-100 bg-slate-50 flex items-center">
+                                                <div className="relative w-full max-w-sm">
+                                                    <span className="absolute left-3 top-2.5 text-slate-400"><Icon name="search" size={14} /></span>
+                                                    <input 
+                                                        type="text" 
+                                                        placeholder="Filtrar colunas..." 
+                                                        value={columnSearch}
+                                                        onChange={(e) => setColumnSearch(e.target.value)}
+                                                        className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                                                    />
+                                                </div>
+                                                <span className="ml-3 text-xs text-slate-400">{filteredColumns.length} de {selectedTable.columns.length} colunas</span>
+                                            </div>
+
+                                            <table className="w-full text-sm text-left border-collapse">
+                                                <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+                                                    <tr><th className="px-6 py-3 w-16">#</th><th className="px-6 py-3">Nome da Coluna</th><th className="px-6 py-3 text-right">Identificadores</th></tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-100">
+                                                    {filteredColumns.map((col, idx) => {
+                                                        const isMatch = searchTerm && col.name.toLowerCase().includes(searchTerm.toLowerCase());
+                                                        return (
+                                                            <tr key={idx} className={`hover:bg-slate-50 transition-colors ${isMatch ? 'bg-yellow-50/50' : ''}`}>
+                                                                <td className="px-6 py-3 text-slate-400 font-mono text-xs">{idx + 1}</td>
+                                                                <td className="px-6 py-3 font-mono text-slate-700 font-medium">
+                                                                    {isMatch ? <span className="highlight-match">{col.name}</span> : col.name}
+                                                                </td>
+                                                                <td className="px-6 py-3 text-right">
+                                                                    {col.isPk && <span className="inline-flex items-center px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-bold border border-yellow-200 mr-2 shadow-sm"><Icon name="key" size={10} className="mr-1"/> PK</span>}
+                                                                    {col.isFk && <span className="inline-flex items-center px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-xs font-bold border border-blue-200 shadow-sm"><Icon name="link" size={10} className="mr-1"/> FK</span>}
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                    {filteredColumns.length === 0 && (
+                                                        <tr>
+                                                            <td colSpan="3" className="px-6 py-8 text-center text-slate-400 italic">
+                                                                Nenhuma coluna encontrada para "{columnSearch}".
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+
+                                    {/* TAB: CONEXÕES */}
+                                    {activeTab === 'connections' && (
+                                        <div className="space-y-4 animate-fade-in">
+                                            {currentConnections.length > 0 ? (
+                                                <div className="grid grid-cols-1 gap-4">
+                                                    {currentConnections.map((conn, idx) => (
+                                                        <div key={idx} onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ visible: true, x: e.pageX, y: e.pageY, target: conn.otherTable }); }} className="connection-card bg-white rounded-xl border border-slate-200 p-0 flex items-stretch justify-between group relative overflow-hidden shadow-sm">
+                                                            <div className="flex flex-col justify-center items-start p-5 w-[35%] bg-slate-50/50 border-r border-slate-100">
+                                                                <div className="text-[10px] text-slate-400 uppercase font-bold mb-1 flex items-center gap-1">Origem</div>
+                                                                <div className="text-slate-500 font-medium text-sm mb-2 truncate w-full">{selectedTable.name}</div>
+                                                                <div className="bg-white text-blue-700 font-mono text-xs px-2.5 py-1.5 rounded border border-blue-200 font-bold shadow-sm flex items-center gap-2"><Icon name="key" size={12} className="text-blue-400" /> {conn.myCol}</div>
+                                                            </div>
+                                                            <div className="flex flex-col items-center justify-center px-2 w-[30%] text-slate-300 relative">
+                                                                <div className="absolute top-2 text-[9px] uppercase font-bold text-blue-400 bg-blue-50 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">{conn.type}</div>
+                                                                <div className="flex items-center gap-2 w-full justify-center">
+                                                                    <div className="h-[2px] w-full bg-slate-200 group-hover:bg-blue-200 transition-colors"></div>
+                                                                    <button onClick={() => generateSQL(conn, selectedTable.name)} title="Gerar SQL Join" className="p-2 rounded-full bg-slate-100 border border-slate-200 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-700 transition-colors shadow-sm"><Icon name="code" size={16} /></button>
+                                                                    <div className="h-[2px] w-full bg-slate-200 group-hover:bg-blue-200 transition-colors"></div>
+                                                                </div>
+                                                                <span className="absolute bottom-2 text-[9px] italic text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">Botão Direito para Opções</span>
+                                                            </div>
+                                                            <div className="flex flex-col justify-center items-end p-5 w-[35%]">
+                                                                <div className="text-[10px] text-slate-400 uppercase font-bold mb-1 flex items-center gap-1">Destino <Icon name="log-in" size={10} /></div>
+                                                                <div className="text-slate-800 font-bold text-lg mb-2 truncate w-full text-right">{conn.otherTable}</div>
+                                                                <div className="bg-slate-50 text-slate-600 font-mono text-xs px-2.5 py-1.5 rounded border border-slate-200 flex items-center gap-2">{conn.otherCol} <Icon name="fingerprint" size={12} className="text-slate-400" /></div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="bg-white rounded-xl border-2 border-dashed border-slate-200 p-16 text-center text-slate-400 flex flex-col items-center">
+                                                    <div className="bg-slate-50 p-4 rounded-full mb-4"><Icon name="unlink" size={32} className="text-slate-300" /></div>
+                                                    <h3 className="text-lg font-medium text-slate-600">Tabela Isolada</h3>
+                                                    <p className="max-w-xs mx-auto mt-2 text-sm text-slate-400">Não foram encontradas chaves estrangeiras conectando esta tabela a outras mapeadas.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
+                                <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-8 shadow-xl shadow-slate-200/50 border border-slate-100"><Icon name="database" size={64} className="text-slate-300/50" /></div>
+                                <h2 className="text-2xl font-bold text-slate-700 mb-2">Pronto para Analisar</h2>
+                                <p className="max-w-md text-center text-slate-500 mb-8">Seus dados estão salvos no navegador. Selecione uma tabela ou carregue um novo arquivo.</p>
+                                {!fileName && tables.length === 0 && <button onClick={() => fileInputRef.current.click()} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all shadow-lg hover:shadow-blue-500/30 flex items-center gap-2"><Icon name="upload" size={18} /> Carregar Arquivo</button>}
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+<!-- Se você está lendo o código fonte, você é viado sim! 🫵 -->

@@ -1,0 +1,216 @@
+tela para assistir os vídeos para treinamento do sistema.
+https://ajuda.headsoft.com.br/wp-admin/index.php
+-------------------------##-------------------------------
+
+tela para acompanhar os chamados dos clientes.
+https://suporte.headsoft.com.br/index.php
+-------------------------##-------------------------------
+
+pág para criar dados temporários quando abrir ele se destruído, no caso para e-mail e senhas.
+https://privnote.com/
+-------------------------##-------------------------------
+
+tabela para verificar banco de dados SQL server.
+file:///C:/Users/Usuario/Documents/Dicionario%202025.pdf
+-------------------------##-------------------------------
+
+*Atalhos: (ALT+ESPAÇO) (SHIFT + CTRL + HOMNE (END) para pode copiar tudo)    *
+
+Colocar inputs de campos (estilo VBA), CRM, OPERACIONAL e COMERCIAL.
+Grupo de campo livre, codigo e nome e confirmar.
+-------------------------##-------------------------------
+
+*Configurar sistema HeadCargo na máquina do usuário e criação de um novo usuário no sistema do cliente.*
+--Begin Tran Teste  
+SET NOCOUNT ON  
+Declare  
+  @Usuario_Origem NomeCurto,  
+  @Usuario_Destino NomeCurto,  
+  @Copiar_Consultas Boleano,  
+  @Copiar_Modulos Boleano,  
+  @Copiar_Papeis Boleano,  
+  @Copiar_Persistencias Boleano  
+/* CONFIGURAÇÕES DA CÓPIA DE USUÁRIO */  
+Set @Usuario_Origem = 'flauvi.headsoft'  
+Set @Usuario_Destino = 'vitor.headsoft'  
+Set @Copiar_Consultas = 1  
+Set @Copiar_Modulos = 1  
+Set @Copiar_Papeis = 1  
+Set @Copiar_Persistencias = 0  
+/* FINAL */  
+Declare  
+  @IdUsuario_Origem IdCurto,  
+  @IdUsuario_Destino IdCurto,  
+  @Max IdCurto
+
+Set @IdUsuario_Origem = (Select IdUsuario From sys_Usuario Where Nome Like @Usuario_Origem)  
+If @IdUsuario_Origem Is Null  
+Begin  
+  Print 'Usuário origem não encontrado para a cópia.'  
+  Return  
+End
+
+Set @IdUsuario_Destino = (Select IdUsuario From sys_Usuario Where Nome Like @Usuario_Destino)  
+If @IdUsuario_Destino Is Null  
+Begin  
+  If (LTrim(@Usuario_Destino) = '') or (@Usuario_Destino Is Null)  
+  Begin  
+    Print 'É necessário especificar um nome de usuário destino para a cópia.'  
+    Return  
+  End
+
+  Set @IdUsuario_Destino = Coalesce((Select Max(IdUsuario) From sys_Usuario), 0) + 1  
+  Insert Into sys_Usuario (  
+    IdUsuario,  
+    Nome,  
+    Senha,  
+    Data_Criacao,  
+    Ativo  
+  )  
+  Values (  
+    @IdUsuario_Destino,  
+    @Usuario_Destino,  
+    LOWER(CONVERT(VARCHAR(32), HashBytes('MD5', (LOWER(SUBSTRING(@Usuario_Destino, 1,1)+SUBSTRING(@Usuario_Destino, (CASE WHEN CHARINDEX('.', @Usuario_Destino) != 0 THEN CHARINDEX('.', @Usuario_Destino)+1 WHEN CHARINDEX(' ', @Usuario_Destino) != 0 THEN CHARINDEX(' ', @Usuario_Destino)+1 ELSE -1 END) , 1)+CAST(YEAR(GETDATE()) as VARCHAR(10))))), 2)),  
+    GetDate(),  
+    1  
+  )
+
+  Update sys_Campo_Incremento Set Codigo = @IdUsuario_Destino Where Divisao Like 'sys_Usuario' and IdCampo_Incremento Like 'IdUsuario'
+
+  print 'Usuário criado.'  
+End
+
+If @Copiar_Consultas = 1  
+Begin  
+  Delete From sys_Consulta_Usuario  
+  Where  
+    IdUsuario = @IdUsuario_Destino
+
+  Insert Into sys_Consulta_Usuario (  
+    IdConsulta,  
+    IdUsuario,  
+    Permissao_Imprimir,  
+    Permissao_Exportar  
+  )  
+  Select  
+    IdConsulta,  
+    @IdUsuario_Destino,  
+    Permissao_Imprimir,  
+    Permissao_Exportar  
+  From  
+    sys_Consulta_Usuario  
+  Where  
+    IdUsuario = @IdUsuario_Origem
+
+  print 'Consultas copiadas: ' + Cast(@@ROWCOUNT as VarChar(Max))  
+End
+
+If @Copiar_Modulos = 1  
+Begin  
+  Delete From sys_Modulo_Usuario  
+  Where  
+    IdUsuario = @IdUsuario_Destino
+
+  Insert Into sys_Modulo_Usuario (  
+    IdModulo,  
+    IdUsuario  
+  )  
+  Select  
+    IdModulo,  
+    @IdUsuario_Destino as IdUsuario  
+  From  
+    sys_Modulo_Usuario  
+  Where  
+    IdUsuario = @IdUsuario_Origem  
+  and  
+    IdModulo Not In (Select IdModulo From sys_Modulo_Usuario Where IdUsuario = @IdUsuario_Destino)
+
+  print 'Módulos copiados: ' + Cast(@@ROWCOUNT as VarChar(Max))  
+End
+
+If @Copiar_Papeis = 1  
+Begin  
+  Set @Max = Coalesce((Select Max(IdPapel_Membro) From sys_Papel_Membro), 0)
+
+  Delete From sys_Papel_Membro  
+  Where  
+    IdUsuario = @IdUsuario_Destino
+
+  Insert Into sys_Papel_Membro (  
+    IdPapel_Membro,  
+    IdPapel_Superior,  
+    IdUsuario,  
+    IdPapel  
+  )  
+  Select  
+    Rank() Over (Order By IdPapel_Membro) + @Max as IdPapel_Membro,  
+    IdPapel_Superior,  
+    @IdUsuario_Destino as IdUsuario,  
+    IdPapel  
+  From  
+    sys_Papel_Membro  
+  Where  
+    IdUsuario = @IdUsuario_Origem  
+  and  
+    IdPapel_Superior Not In (Select IdPapel_Superior From sys_Papel_Membro Where IdUsuario = @IdUsuario_Destino)
+
+  print 'Papéis copiados: ' + Cast(@@ROWCOUNT as VarChar(Max))
+
+  If @@ROWCOUNT > 0  
+    Update sys_Campo_Incremento Set Codigo = (Select Max(IdConsulta) From sys_Consulta) Where Divisao Like 'sys_Consulta' and IdCampo_Incremento Like 'IdConsulta'  
+End
+
+If @Copiar_Persistencias = 1  
+Begin  
+  Update Dst Set  
+    Dados = Src.Dados  
+  From  
+    sys_Persistencia Src  
+  Join  
+    sys_Persistencia Dst on Dst.IdPersistencia Like Src.IdPersistencia  
+  and  
+    Dst.IdUsuario = @IdUsuario_Destino  
+  Where    
+    Src.IdUsuario = @IdUsuario_Origem
+
+  if @@ROWCOUNT > 0  
+    print 'Persistências atualizadas: ' + Cast(@@ROWCOUNT as VarChar(Max))
+
+  Insert Into sys_Persistencia (  
+    IdPersistencia,  
+    IdUsuario,  
+    Dados  
+  )  
+  Select  
+    IdPersistencia,  
+    @IdUsuario_Destino as IdUsuario,  
+    Dados  
+  From  
+    sys_Persistencia  
+  Where  
+    IdUsuario = @IdUsuario_Origem  
+  and  
+    IdPersistencia Not In (Select IdPersistencia From sys_Persistencia Where IdUsuario = @IdUsuario_Destino)
+
+  If @@ROWCOUNT > 0  
+    print 'Persistencias copiadas: ' + Cast(@@ROWCOUNT as VarChar(Max))  
+End
+
+SET NOCOUNT OFF
+
+--Rollback Tran Teste
+Criar usuario, entra no banco de dados do cliente e utiliza o script. (origem é o user que vai ser copiado e o destino é o novo user).
+Toda vez que criar um user novo precisa criar um funcionário. (cria um funcionario colocando informações como nome e email e telefone).
+Para fazer a configuração do e-mail, vai em conta e-mail e cria um novo com o nome de user, e-mail e configura as informações, quando for outlook apenas coloca o email e a senha, agora quando é gmail precisa apenas configura e pede para o user dps fazer a configuraçao dentro do gmail e colocar a senha que é gerada pelo google chamada (MFA).
+
+Parte instalação no sistema:(appdata\local\'criar pasta Headsoft') para evitar bloqueio do windows defender (copia local da pasta- gerenciar configurações ->exclusoes -> adicionar uma exclusão e cola o caminho)
+Após enviar a pasta do sistema do cliente, já está pronto e apenas precisa pegar o "desktop" o executavel e enviar para a área de trabalho e renomear para "HeadCargo".
+
+
+
+
+
+
+
+
+

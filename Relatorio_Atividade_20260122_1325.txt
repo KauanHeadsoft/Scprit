@@ -1,0 +1,436 @@
+TIMESTAMP | TIPO | DETALHE | PROCESSO | TEMPO_ATIVO
+13:25:26 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:25:29 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:03.205945
+13:25:29 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:25:33 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:04.058217
+13:25:33 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:25:58 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:24.659934
+13:25:58 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:26:04 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:06.140614
+13:26:04 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:26:09 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:05.112020
+13:26:09 | ACESSO  | PROGRAMA: Finalizar fatura | EXE: Desktop.exe
+13:26:13 | MUDANCA | Saiu de: Finalizar fatura | Ficou: 0:00:04.092570
+13:26:13 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:26:16 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:03.062968
+13:26:16 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [CRM] | EXE: Desktop.exe
+13:26:21 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [CRM] | Ficou: 0:00:04.078779
+13:26:21 | ACESSO  | PROGRAMA: Contrato logística | EXE: Desktop.exe
+13:26:22 | MUDANCA | Saiu de: Contrato logística | Ficou: 0:00:01.015138
+13:26:22 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [CRM] | EXE: Desktop.exe
+13:26:25 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [CRM] | Ficou: 0:00:03.042877
+13:26:25 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:26:32 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:07.114634
+13:26:32 | ACESSO  | PROGRAMA: Finalizar fatura | EXE: Desktop.exe
+13:26:51 | MUDANCA | Saiu de: Finalizar fatura | Ficou: 0:00:19.443107
+13:26:51 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:27:02 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:11.192737
+13:27:02 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:27:06 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:04.120683
+13:27:06 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:27:12 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:05.082691
+13:27:12 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:27:13 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:01.022545
+13:27:13 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:27:39 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:26.707326
+13:27:39 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:27:45 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:06.137950
+13:27:45 | ACESSO  | PROGRAMA: HeadCARGO SMX - [Log de tabelas] | EXE: Desktop.exe
+13:27:59 | MUDANCA | Saiu de: HeadCARGO SMX - [Log de tabelas] | Ficou: 0:00:13.312668
+13:27:59 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+13:28:04 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:05.112354
+13:28:04 | ACESSO  | PROGRAMA: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+13:28:22 | MUDANCA | Saiu de: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | Ficou: 0:00:18.469904
+13:28:22 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+13:28:30 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:07.143165
+13:28:30 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:28:33 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:03.098243
+13:28:33 | ACESSO  | PROGRAMA: Headsoft Service Desk - imagem10.png | EXE: chrome.exe
+13:28:40 | MUDANCA | Saiu de: Headsoft Service Desk - imagem10.png | Ficou: 0:00:07.115126
+13:28:40 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+13:29:02 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:21.921973
+13:29:02 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] (Não está respondendo) | EXE: dwm.exe
+13:29:03 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] (Não está respondendo) | Ficou: 0:00:01.013289
+13:29:03 | ACESSO  | PROGRAMA: [Janela de Sistema: Shell_TrayWnd] | EXE: explorer.exe
+13:29:19 | MUDANCA | Saiu de: [Janela de Sistema: Shell_TrayWnd] | Ficou: 0:00:16.225346
+13:29:19 | ACESSO  | PROGRAMA: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+13:29:22 | MUDANCA | Saiu de: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | Ficou: 0:00:03.056708
+13:29:22 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+13:29:43 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:20.918612
+13:29:43 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+13:31:01 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:01:17.993489
+13:31:01 | ACESSO  | PROGRAMA: Desconhecido | EXE: -
+13:31:02 | MUDANCA | Saiu de: Desconhecido | Ficou: 0:00:01.030164
+13:31:02 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+13:31:15 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:13.272664
+13:31:15 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:31:19 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:04.061511
+13:31:19 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+13:31:22 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:02.654937
+13:31:22 | ACESSO  | PROGRAMA: Chat | André Filipe Ribas Cordeiro | Microsoft Teams | EXE: ms-teams.exe
+13:39:43 | MUDANCA | Saiu de: Chat | André Filipe Ribas Cordeiro | Microsoft Teams | Ficou: 0:08:20.692786
+13:39:43 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:42:55 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:03:12.374433
+13:42:55 | ACESSO  | PROGRAMA: DB- Headsoft Edition - Google Chrome | EXE: chrome.exe
+13:42:56 | MUDANCA | Saiu de: DB- Headsoft Edition - Google Chrome | Ficou: 0:00:01.012963
+13:42:56 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+13:42:58 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:02.069614
+13:42:58 | ACESSO  | PROGRAMA: Vídeo Aula – Tracking – Base de Conhecimento - Google Chrome | EXE: chrome.exe
+13:42:59 | MUDANCA | Saiu de: Vídeo Aula – Tracking – Base de Conhecimento - Google Chrome | Ficou: 0:00:01.366190
+13:42:59 | ACESSO  | PROGRAMA: 黄昏のBAY CITY - YouTube - Google Chrome | EXE: chrome.exe
+13:43:05 | MUDANCA | Saiu de: 黄昏のBAY CITY - YouTube - Google Chrome | Ficou: 0:00:05.974972
+13:43:05 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:43:07 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:01.538825
+13:43:07 | ACESSO  | PROGRAMA: Chat | André Filipe Ribas Cordeiro | Microsoft Teams | EXE: ms-teams.exe
+13:43:08 | MUDANCA | Saiu de: Chat | André Filipe Ribas Cordeiro | Microsoft Teams | Ficou: 0:00:01.026381
+13:43:08 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+13:44:01 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:52.714670
+13:44:01 | ACESSO  | PROGRAMA: Chat | 👽 🇸🇺🇵🇵🇴🇷🇹 👽 | Microsoft Teams | EXE: ms-teams.exe
+13:44:07 | MUDANCA | Saiu de: Chat | 👽 🇸🇺🇵🇵🇴🇷🇹 👽 | Microsoft Teams | Ficou: 0:00:06.426127
+13:44:07 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+13:44:58 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:51.409429
+13:44:58 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:45:00 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:01.047310
+13:45:00 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+13:45:07 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:07.098347
+13:45:07 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:45:16 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:09.181768
+13:45:16 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+13:45:17 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:01.028377
+13:45:17 | ACESSO  | PROGRAMA: Dicionário de dados | (19/06/2024) - Google Chrome | EXE: chrome.exe
+13:45:20 | MUDANCA | Saiu de: Dicionário de dados | (19/06/2024) - Google Chrome | Ficou: 0:00:03.070657
+13:45:20 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:45:23 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:03.179775
+13:45:23 | ACESSO  | PROGRAMA: Dicionário de dados | (19/06/2024) - Google Chrome | EXE: chrome.exe
+13:45:25 | MUDANCA | Saiu de: Dicionário de dados | (19/06/2024) - Google Chrome | Ficou: 0:00:02.194177
+13:45:25 | ACESSO  | PROGRAMA: CITY POP 1984 – Tokyo Midnight Drive | 懐かしい日本シティポップ【Playlist 1】 - YouTube - Google Chrome | EXE: chrome.exe
+13:45:31 | MUDANCA | Saiu de: CITY POP 1984 – Tokyo Midnight Drive | 懐かしい日本シティポップ【Playlist 1】 - YouTube - Google Chrome | Ficou: 0:00:05.779181
+13:45:31 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:46:41 | MUDANCA | Saiu de: tawk.to | Ficou: 0:01:10.587101
+13:46:41 | ACESSO  | PROGRAMA: HeadSoft - Editor de consultas v1.1 | EXE: EditorConsulta.exe
+13:46:43 | MUDANCA | Saiu de: HeadSoft - Editor de consultas v1.1 | Ficou: 0:00:01.038132
+13:46:43 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:46:44 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:01.015716
+13:46:44 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:46:47 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:03.054933
+13:46:47 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:47:01 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:14.328771
+13:47:01 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:47:07 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:06.090003
+13:47:07 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:47:14 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:07.187964
+13:47:14 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:47:17 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:03.064297
+13:47:17 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:47:29 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:11.248589
+13:47:29 | ACESSO  | PROGRAMA: Informação | EXE: Desktop.exe
+13:47:30 | MUDANCA | Saiu de: Informação | Ficou: 0:00:01.012823
+13:47:30 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:47:32 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:02.056918
+13:47:32 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:47:36 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:04.074114
+13:47:36 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:47:40 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:04.139346
+13:47:40 | ACESSO  | PROGRAMA: Informação | EXE: Desktop.exe
+13:47:43 | MUDANCA | Saiu de: Informação | Ficou: 0:00:03.071921
+13:47:43 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:47:50 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:07.140775
+13:47:50 | ACESSO  | PROGRAMA: Pessoa | EXE: Desktop.exe
+13:47:52 | MUDANCA | Saiu de: Pessoa | Ficou: 0:00:02.059723
+13:47:52 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:48:08 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:15.389180
+13:48:08 | ACESSO  | PROGRAMA: Moeda | EXE: Desktop.exe
+13:48:09 | MUDANCA | Saiu de: Moeda | Ficou: 0:00:01.012784
+13:48:09 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:48:19 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:10.310984
+13:48:19 | ACESSO  | PROGRAMA: Cuidado | EXE: Desktop.exe
+13:48:21 | MUDANCA | Saiu de: Cuidado | Ficou: 0:00:02.031085
+13:48:21 | ACESSO  | PROGRAMA: HeadCARGO HEADSOFT TESTES - [Operacional] | EXE: Desktop.exe
+13:48:29 | MUDANCA | Saiu de: HeadCARGO HEADSOFT TESTES - [Operacional] | Ficou: 0:00:08.156038
+13:48:29 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:52:06 | MUDANCA | Saiu de: tawk.to | Ficou: 0:03:37.447936
+13:52:06 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+13:52:17 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:10.290878
+13:52:17 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:53:23 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:01:06.460963
+13:53:23 | ACESSO  | PROGRAMA: Chat | Vitor Araujo dos Santos | Microsoft Teams | EXE: ms-teams.exe
+13:53:26 | MUDANCA | Saiu de: Chat | Vitor Araujo dos Santos | Microsoft Teams | Ficou: 0:00:02.203604
+13:53:26 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:53:34 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:08.183462
+13:53:34 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:53:53 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:19.492922
+13:53:53 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:54:00 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:07.146995
+13:54:00 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:54:02 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:02.066695
+13:54:02 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+13:54:33 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:30.864740
+13:54:33 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+13:54:38 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:05.133639
+13:54:38 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:54:41 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:02.040375
+13:54:41 | ACESSO  | PROGRAMA: Dicionário de dados | (19/06/2024) - Google Chrome | EXE: chrome.exe
+13:54:43 | MUDANCA | Saiu de: Dicionário de dados | (19/06/2024) - Google Chrome | Ficou: 0:00:02.040035
+13:54:43 | ACESSO  | PROGRAMA: Login - Google Chrome | EXE: chrome.exe
+13:54:46 | MUDANCA | Saiu de: Login - Google Chrome | Ficou: 0:00:03.073993
+13:54:46 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:54:57 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:11.249816
+13:54:57 | ACESSO  | PROGRAMA: Login - Google Chrome | EXE: chrome.exe
+13:55:19 | MUDANCA | Saiu de: Login - Google Chrome | Ficou: 0:00:22.601607
+13:55:19 | ACESSO  | PROGRAMA: Telefones - Google Chrome | EXE: chrome.exe
+13:55:31 | MUDANCA | Saiu de: Telefones - Google Chrome | Ficou: 0:00:11.370481
+13:55:31 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:56:09 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:38.007641
+13:56:09 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:56:16 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:07.175589
+13:56:16 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:56:18 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:02.035398
+13:56:18 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+13:56:30 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:12.277487
+13:56:30 | ACESSO  | PROGRAMA: Telefones - Google Chrome | EXE: chrome.exe
+13:56:40 | MUDANCA | Saiu de: Telefones - Google Chrome | Ficou: 0:00:09.205222
+13:56:40 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:57:13 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:33.853164
+13:57:13 | ACESSO  | PROGRAMA: Telefones - Google Chrome | EXE: chrome.exe
+13:57:14 | MUDANCA | Saiu de: Telefones - Google Chrome | Ficou: 0:00:01.012968
+13:57:14 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:58:16 | MUDANCA | Saiu de: 3CX | Ficou: 0:01:01.620456
+13:58:16 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:58:19 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:03.090075
+13:58:19 | ACESSO  | PROGRAMA: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+13:58:20 | MUDANCA | Saiu de: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | Ficou: 0:00:01.034798
+13:58:20 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:58:24 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:04.087932
+13:58:24 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:58:30 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:06.112911
+13:58:30 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+13:58:47 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:16.475274
+13:58:47 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+13:58:55 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:08.196511
+13:58:55 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+13:59:42 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:47.292467
+13:59:42 | ACESSO  | PROGRAMA: [Janela de Sistema: Shell_TrayWnd] | EXE: explorer.exe
+13:59:43 | MUDANCA | Saiu de: [Janela de Sistema: Shell_TrayWnd] | Ficou: 0:00:01.056161
+13:59:43 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+13:59:49 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:00:05.092113
+13:59:49 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#3
+] | EXE: anydesk-5-5-3 2.exe
+14:00:13 | MUDANCA | Saiu de: [Janela de Sistema: popup#3
+] | Ficou: 0:00:24.516099
+14:00:13 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:00:14 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:01.022449
+14:00:14 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:00:16 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:02.051241
+14:00:16 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:00:17 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:00:01.023709
+14:00:17 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#3
+] | EXE: anydesk-5-5-3 2.exe
+14:00:31 | MUDANCA | Saiu de: [Janela de Sistema: popup#3
+] | Ficou: 0:00:14.343415
+14:00:31 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:00:38 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:00:06.642231
+14:00:38 | ACESSO  | PROGRAMA: Chat | Vitor Araujo dos Santos | Microsoft Teams | EXE: ms-teams.exe
+14:00:44 | MUDANCA | Saiu de: Chat | Vitor Araujo dos Santos | Microsoft Teams | Ficou: 0:00:06.142578
+14:00:44 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+14:00:47 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:03.150876
+14:00:47 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:02:05 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:01:17.439556
+14:02:05 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:02:08 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:03.048317
+14:02:08 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+14:02:11 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:03.553250
+14:02:11 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:02:12 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:01.021275
+14:02:12 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:04:16 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:02:03.780909
+14:04:16 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#32
+] | EXE: anydesk-5-5-3 2.exe
+14:04:18 | MUDANCA | Saiu de: [Janela de Sistema: popup#32
+] | Ficou: 0:00:02.052173
+14:04:18 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#35
+] | EXE: anydesk-5-5-3 2.exe
+14:04:19 | MUDANCA | Saiu de: [Janela de Sistema: popup#35
+] | Ficou: 0:00:01.014987
+14:04:19 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#42
+] | EXE: anydesk-5-5-3 2.exe
+14:04:21 | MUDANCA | Saiu de: [Janela de Sistema: popup#42
+] | Ficou: 0:00:02.032442
+14:04:21 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:04:22 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:00:01.020235
+14:04:22 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#43
+] | EXE: anydesk-5-5-3 2.exe
+14:04:28 | MUDANCA | Saiu de: [Janela de Sistema: popup#43
+] | Ficou: 0:00:06.130326
+14:04:28 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:04:31 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:00:02.047474
+14:04:31 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#51
+] | EXE: anydesk-5-5-3 2.exe
+14:04:33 | MUDANCA | Saiu de: [Janela de Sistema: popup#51
+] | Ficou: 0:00:02.039405
+14:04:33 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#53
+] | EXE: anydesk-5-5-3 2.exe
+14:04:34 | MUDANCA | Saiu de: [Janela de Sistema: popup#53
+] | Ficou: 0:00:01.019702
+14:04:34 | ACESSO  | PROGRAMA: [Janela de Sistema: popup#54
+] | EXE: anydesk-5-5-3 2.exe
+14:04:35 | MUDANCA | Saiu de: [Janela de Sistema: popup#54
+] | Ficou: 0:00:01.016106
+14:04:35 | ACESSO  | PROGRAMA: AnyDesk | EXE: anydesk-5-5-3 2.exe
+14:06:01 | MUDANCA | Saiu de: AnyDesk | Ficou: 0:01:25.907135
+14:06:01 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+14:06:19 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:18.459989
+14:06:19 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:06:21 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:02.044177
+14:06:21 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+14:06:26 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:05.502533
+14:06:26 | ACESSO  | PROGRAMA:  LOG_MULTIPLOS.txt - Bloco de notas | EXE: Notepad.exe
+14:06:28 | MUDANCA | Saiu de:  LOG_MULTIPLOS.txt - Bloco de notas | Ficou: 0:00:01.023062
+14:06:28 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+14:06:29 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:01.015365
+14:06:29 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+14:06:56 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:28.087603
+14:06:56 | ACESSO  | PROGRAMA: Desconhecido | EXE: -
+14:06:58 | MUDANCA | Saiu de: Desconhecido | Ficou: 0:00:01.034383
+14:06:58 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+14:07:06 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:08.194954
+14:07:06 | ACESSO  | PROGRAMA: Chat | Flauvi Klock Neto | Microsoft Teams | EXE: ms-teams.exe
+14:07:10 | MUDANCA | Saiu de: Chat | Flauvi Klock Neto | Microsoft Teams | Ficou: 0:00:04.207106
+14:07:10 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+14:07:12 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:02.067797
+14:07:12 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:07:14 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:02.057881
+14:07:14 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:07:15 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:01.013923
+14:07:15 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:07:17 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:02.035830
+14:07:17 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:07:24 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:07.103308
+14:07:24 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+14:07:34 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:00:09.225407
+14:07:34 | ACESSO  | PROGRAMA: [Janela de Sistema: Shell_TrayWnd] | EXE: explorer.exe
+14:07:35 | MUDANCA | Saiu de: [Janela de Sistema: Shell_TrayWnd] | Ficou: 0:00:01.011673
+14:07:35 | ACESSO  | PROGRAMA: HeadSoft - Editor de consultas v1.1 | EXE: EditorConsulta.exe
+14:07:38 | MUDANCA | Saiu de: HeadSoft - Editor de consultas v1.1 | Ficou: 0:00:03.105071
+14:07:38 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+14:07:44 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:06.104396
+14:07:44 | ACESSO  | PROGRAMA: [Janela de Sistema: #32770] | EXE: Lightshot.exe
+14:07:51 | MUDANCA | Saiu de: [Janela de Sistema: #32770] | Ficou: 0:00:07.169519
+14:07:51 | ACESSO  | PROGRAMA: 3CX | EXE: 3CXSoftphone.exe
+14:07:55 | MUDANCA | Saiu de: 3CX | Ficou: 0:00:04.067752
+14:07:55 | ACESSO  | PROGRAMA: HeadSoft - Editor de consultas v1.1 | EXE: EditorConsulta.exe
+14:07:56 | MUDANCA | Saiu de: HeadSoft - Editor de consultas v1.1 | Ficou: 0:00:01.018452
+14:07:56 | ACESSO  | PROGRAMA: HeadCARGO SMX - [CRM] | EXE: Desktop.exe
+14:10:07 | MUDANCA | Saiu de: HeadCARGO SMX - [CRM] | Ficou: 0:02:10.862461
+14:10:07 | ACESSO  | PROGRAMA: HeadCARGO SMX - [Operacional] | EXE: Desktop.exe
+14:10:12 | MUDANCA | Saiu de: HeadCARGO SMX - [Operacional] | Ficou: 0:00:05.107139
+14:10:12 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:10:16 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:04.085243
+14:10:16 | ACESSO  | PROGRAMA: HeadCARGO SMX - [Operacional] | EXE: Desktop.exe
+14:10:50 | MUDANCA | Saiu de: HeadCARGO SMX - [Operacional] | Ficou: 0:00:33.941094
+14:10:50 | ACESSO  | PROGRAMA: Finalizar fatura | EXE: Desktop.exe
+14:10:54 | MUDANCA | Saiu de: Finalizar fatura | Ficou: 0:00:04.063981
+14:10:54 | ACESSO  | PROGRAMA: HeadCARGO SMX - [Operacional] | EXE: Desktop.exe
+14:11:01 | MUDANCA | Saiu de: HeadCARGO SMX - [Operacional] | Ficou: 0:00:07.167707
+14:11:01 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:11:07 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:06.137878
+14:11:07 | ACESSO  | PROGRAMA:  LOG_MULTIPLOS.txt - Bloco de notas | EXE: Notepad.exe
+14:11:10 | MUDANCA | Saiu de:  LOG_MULTIPLOS.txt - Bloco de notas | Ficou: 0:00:02.049107
+14:11:10 | ACESSO  | PROGRAMA: * RELATORIO_DO_ERRO.txt - Bloco de notas | EXE: Notepad.exe
+14:11:29 | MUDANCA | Saiu de: * RELATORIO_DO_ERRO.txt - Bloco de notas | Ficou: 0:00:19.610264
+14:11:29 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:11:39 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:10.282702
+14:11:39 | ACESSO  | PROGRAMA: tawk.to | EXE: tawk.to.exe
+14:11:47 | MUDANCA | Saiu de: tawk.to | Ficou: 0:00:07.138669
+14:11:47 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:11:57 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:10.273724
+14:11:57 | ACESSO  | PROGRAMA: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | EXE: Code.exe
+14:12:04 | MUDANCA | Saiu de: Erro Fatura valor ou valor corrente de registro financeiro.sql - Scripts - Visual Studio Code | Ficou: 0:00:07.455132
+14:12:04 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+14:12:39 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:34.934125
+14:12:39 | ACESSO  | PROGRAMA: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | EXE: Code.exe
+14:12:51 | MUDANCA | Saiu de: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | Ficou: 0:00:11.698083
+14:12:51 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:12:56 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:05.105978
+14:12:56 | ACESSO  | PROGRAMA: HeadCARGO SMX - [Operacional] | EXE: Desktop.exe
+14:13:07 | MUDANCA | Saiu de: HeadCARGO SMX - [Operacional] | Ficou: 0:00:11.184333
+14:13:07 | ACESSO  | PROGRAMA: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | EXE: Code.exe
+14:13:43 | MUDANCA | Saiu de: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | Ficou: 0:00:36.261080
+14:13:43 | ACESSO  | PROGRAMA: Fazendo_agora.html - Scripts - Visual Studio Code | EXE: Code.exe
+14:13:52 | MUDANCA | Saiu de: Fazendo_agora.html - Scripts - Visual Studio Code | Ficou: 0:00:08.165483
+14:13:52 | ACESSO  | PROGRAMA: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:13:55 | MUDANCA | Saiu de: SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - SQLQuery24.sql - smx.sql.headcargo.com.br,9322.HeadCARGO_SMX (hc_headsoft_suporte (87))* - Microsoft SQL Server Management Studio | Ficou: 0:00:03.047529
+14:13:55 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:14:03 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | Ficou: 0:00:08.221565
+14:14:03 | ACESSO  | PROGRAMA: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | EXE: Code.exe
+14:14:17 | MUDANCA | Saiu de: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | Ficou: 0:00:14.307133
+14:14:17 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:14:55 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | Ficou: 0:00:38.069006
+14:14:55 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:14:56 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | Ficou: 0:00:01.024664
+14:14:56 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:15:15 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | Ficou: 0:00:18.572218
+14:15:15 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:15:16 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | Ficou: 0:00:01.018274
+14:15:16 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:17:16 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | Ficou: 0:02:00.415356
+14:17:16 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:17:17 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269)) Executando...* - Microsoft SQL Server Management Studio | Ficou: 0:00:01.016853
+14:17:17 | ACESSO  | PROGRAMA: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | EXE: SSMS.exe
+14:17:38 | MUDANCA | Saiu de: SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - SQLQuery23.sql - texcomex.sql.headcargo.com.br,9322.HeadCARGO_TEXCOMEX (hc_headsoft_suporte (269))* - Microsoft SQL Server Management Studio | Ficou: 0:00:20.557198
+14:17:38 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:18:09 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:30.940681
+14:18:09 | ACESSO  | PROGRAMA: [Janela de Sistema: XamlExplorerHostIslandWindow] | EXE: explorer.exe
+14:18:12 | MUDANCA | Saiu de: [Janela de Sistema: XamlExplorerHostIslandWindow] | Ficou: 0:00:03.083457
+14:18:12 | ACESSO  | PROGRAMA: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | EXE: Code.exe
+14:18:17 | MUDANCA | Saiu de: ● [Report.Header] • Untitled-1 - Scripts - Visual Studio Code | Ficou: 0:00:05.264773
+14:18:17 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:18:20 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:03.047867
+14:18:20 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:19:37 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:01:16.984315
+14:19:37 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:19:57 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:19.543917
+14:19:57 | ACESSO  | PROGRAMA: [Janela de Sistema: XamlExplorerHostIslandWindow] | EXE: explorer.exe
+14:19:59 | MUDANCA | Saiu de: [Janela de Sistema: XamlExplorerHostIslandWindow] | Ficou: 0:00:02.061135
+14:19:59 | ACESSO  | PROGRAMA: Downloads – Explorador de Arquivos | EXE: explorer.exe
+14:20:01 | MUDANCA | Saiu de: Downloads – Explorador de Arquivos | Ficou: 0:00:02.033701
+14:20:01 | ACESSO  | PROGRAMA: [Janela de Sistema: XamlExplorerHostIslandWindow] | EXE: explorer.exe
+14:20:03 | MUDANCA | Saiu de: [Janela de Sistema: XamlExplorerHostIslandWindow] | Ficou: 0:00:02.054642
+14:20:03 | ACESSO  | PROGRAMA: Downloads – Explorador de Arquivos | EXE: explorer.exe
+14:20:04 | MUDANCA | Saiu de: Downloads – Explorador de Arquivos | Ficou: 0:00:01.044641
+14:20:04 | ACESSO  | PROGRAMA: Área de Trabalho – Explorador de Arquivos | EXE: explorer.exe
+14:20:06 | MUDANCA | Saiu de: Área de Trabalho – Explorador de Arquivos | Ficou: 0:00:02.047567
+14:20:06 | ACESSO  | PROGRAMA: Logins – Explorador de Arquivos | EXE: explorer.exe
+14:20:09 | MUDANCA | Saiu de: Logins – Explorador de Arquivos | Ficou: 0:00:03.074422
+14:20:09 | ACESSO  | PROGRAMA: [Janela de Sistema: #32770] | EXE: Lightshot.exe
+14:20:11 | MUDANCA | Saiu de: [Janela de Sistema: #32770] | Ficou: 0:00:02.052455
+14:20:11 | ACESSO  | PROGRAMA: Logins – Explorador de Arquivos | EXE: explorer.exe
+14:20:12 | MUDANCA | Saiu de: Logins – Explorador de Arquivos | Ficou: 0:00:01.016564
+14:20:12 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:20:13 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:01.023113
+14:20:13 | ACESSO  | PROGRAMA: Logins – Explorador de Arquivos | EXE: explorer.exe
+14:20:14 | MUDANCA | Saiu de: Logins – Explorador de Arquivos | Ficou: 0:00:01.014864
+14:20:14 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:20:37 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:22.585060
+14:20:37 | ACESSO  | PROGRAMA: Logins – Explorador de Arquivos | EXE: explorer.exe
+14:20:49 | MUDANCA | Saiu de: Logins – Explorador de Arquivos | Ficou: 0:00:12.309651
+14:20:49 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+14:21:08 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:18.647681
+14:21:08 | ACESSO  | PROGRAMA: Logins – Explorador de Arquivos | EXE: explorer.exe
+14:21:13 | MUDANCA | Saiu de: Logins – Explorador de Arquivos | Ficou: 0:00:05.155397
+14:21:13 | ACESSO  | PROGRAMA: [Janela de Sistema: Shell_TrayWnd] | EXE: explorer.exe
+14:21:14 | MUDANCA | Saiu de: [Janela de Sistema: Shell_TrayWnd] | Ficou: 0:00:01.039469
+14:21:14 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:21:18 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:04.246874
+14:21:18 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:21:21 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:03.050828
+14:21:21 | ACESSO  | PROGRAMA: aeroportos.png - Google Chrome | EXE: chrome.exe
+14:21:38 | MUDANCA | Saiu de: aeroportos.png - Google Chrome | Ficou: 0:00:16.413666
+14:21:38 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:21:41 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:03.077733
+14:21:41 | ACESSO  | PROGRAMA: HeadSoft Service Desk - Google Chrome | EXE: chrome.exe
+14:21:43 | MUDANCA | Saiu de: HeadSoft Service Desk - Google Chrome | Ficou: 0:00:02.035071
+14:21:43 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe
+14:21:49 | MUDANCA | Saiu de: import psutil.py - Scripts - Visual Studio Code | Ficou: 0:00:06.164812
+14:21:49 | ACESSO  | PROGRAMA: Google Gemini - Google Chrome | EXE: chrome.exe
+14:21:54 | MUDANCA | Saiu de: Google Gemini - Google Chrome | Ficou: 0:00:05.201765
+14:21:54 | ACESSO  | PROGRAMA: import psutil.py - Scripts - Visual Studio Code | EXE: Code.exe

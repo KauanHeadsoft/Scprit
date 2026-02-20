@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Pro Manager - Offline</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-body: #f4f6f9;
+            --bg-column: #ebecf0;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #dcdcdc;
+            height: 60px;
+            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Área do Board */
+        .board-container {
+            flex-grow: 1;
+            display: flex;
+            overflow-x: auto;
+            padding: 20px;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        /* Colunas */
+        .kanban-column {
+            background-color: var(--bg-column);
+            min-width: 340px;
+            width: 340px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+            border: 1px solid #dfe1e6;
+        }
+
+        .column-header {
+            padding: 14px 16px;
+            font-weight: 700;
+            color: #42526e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task-list {
+            padding: 0 10px 10px 10px;
+            flex-grow: 1;
+            overflow-y: auto;
+            min-height: 50px;
+        }
+
+        /* Cartões */
+        .kanban-card {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            border-left: 4px solid #ccc;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Cores de Prioridade */
+        .priority-Baixa { border-left-color: #0dcaf0; }    /* Azul Ciano */
+        .priority-Média { border-left-color: #ffc107; }    /* Amarelo */
+        .priority-Alta { border-left-color: #fd7e14; }     /* Laranja */
+        .priority-Urgente { border-left-color: #dc3545; }  /* Vermelho */
+
+        .card-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .card-footer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* Badges de Código */
+        .code-badges {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .code-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-sql { background-color: #e3f2fd; color: #0d47a1; }
+        .badge-html { background-color: #fff3e0; color: #e65100; }
+
+        /* Estilo do Código nos Modais */
+        .code-block {
+            background-color: #212529;
+            color: #e0e0e0;
+            padding: 15px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #444;
+            margin-top: 5px;
+        }
+        
+        .code-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* Drag and Drop Visuals */
+        .dragging { opacity: 0.4; border: 2px dashed #999; }
+        .drag-over { background-color: #e2e4e9; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-project-diagram text-primary fa-lg me-2"></i>
+            <span class="h5 mb-0 fw-bold text-dark">Kanban Pro Manager</span>
+        </div>
+        <div>
+            <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCriar">
+                <i class="fas fa-plus me-1"></i> Novo Chamado
+            </button>
+            <button class="btn btn-outline-danger ms-2 shadow-sm" onclick="limparTudo()">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Quadro Kanban -->
+    <div class="board-container">
+        
+        <!-- Coluna: A Fazer -->
+        <div class="kanban-column" data-status="todo">
+            <div class="column-header">
+                <span><i class="far fa-circle me-1 text-secondary"></i> A Fazer</span>
+                <span class="badge bg-secondary rounded-pill" id="count-todo">0</span>
+            </div>
+            <div class="task-list" id="todo-list" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna: Em Andamento -->
+        <div class="kanban-column" data-status="doing">
+            <div class="column-header">
+                <span><i class="fas fa-spinner me-1 text-primary"></i> Em Andamento</span>
+                <span class="badge bg-primary rounded-pill" id="count-doing">0</span>
+            </div>
+            <div class="task-list" id="doing-list" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna: Testes -->
+        <div class="kanban-column" data-status="testing">
+            <div class="column-header">
+                <span><i class="fas fa-vial me-1 text-warning"></i> Testes / QA</span>
+                <span class="badge bg-warning text-dark rounded-pill" id="count-testing">0</span>
+            </div>
+            <div class="task-list" id="testing-list" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna: Concluído -->
+        <div class="kanban-column" data-status="done">
+            <div class="column-header">
+                <span><i class="fas fa-check-circle me-1 text-success"></i> Concluído</span>
+                <span class="badge bg-success rounded-pill" id="count-done">0</span>
+            </div>
+            <div class="task-list" id="done-list" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+    </div>
+
+    <!-- MODAL: Criar Novo Chamado -->
+    <div class="modal fade" id="modalCriar" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title"><i class="fas fa-plus-circle text-primary me-2"></i>Novo Chamado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTarefa">
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label fw-bold">Título</label>
+                                <input type="text" class="form-control" id="titulo" required placeholder="Ex: Criar Landing Page">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Prioridade</label>
+                                <select class="form-select" id="prioridade">
+                                    <option value="Baixa">Baixa</option>
+                                    <option value="Média" selected>Média</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Urgente">Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Descrição</label>
+                            <textarea class="form-control" id="descricao" rows="3" placeholder="Detalhes da atividade..."></textarea>
+                        </div>
+
+                        <!-- Abas para SQL e HTML -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="sql-tab" data-bs-toggle="tab" data-bs-target="#tab-sql" type="button" role="tab"><i class="fas fa-database me-1"></i> SQL</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="html-tab" data-bs-toggle="tab" data-bs-target="#tab-html" type="button" role="tab"><i class="fab fa-html5 me-1"></i> HTML</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content border border-top-0 p-3 rounded-bottom bg-light">
+                            <div class="tab-pane fade show active" id="tab-sql" role="tabpanel">
+                                <label class="form-text mb-1">Cole seu script SQL aqui:</label>
+                                <textarea class="form-control font-monospace" id="codigoSql" rows="4" placeholder="SELECT * FROM clientes..." style="font-size: 0.9rem;"></textarea>
+                            </div>
+                            <div class="tab-pane fade" id="tab-html" role="tabpanel">
+                                <label class="form-text mb-1">Cole seu código HTML aqui:</label>
+                                <textarea class="form-control font-monospace" id="codigoHtml" rows="4" placeholder="<div class='container'>...</div>" style="font-size: 0.9rem;"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="salvarTarefa()">Criar Chamado</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Editar Chamado (Cópia do criar, mas para edição) -->
+    <div class="modal fade" id="modalEditar" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning-subtle">
+                    <h5 class="modal-title"><i class="fas fa-edit text-dark me-2"></i>Editar Chamado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditar">
+                        <input type="hidden" id="editId">
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label fw-bold">Título</label>
+                                <input type="text" class="form-control" id="editTitulo" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Prioridade</label>
+                                <select class="form-select" id="editPrioridade">
+                                    <option value="Baixa">Baixa</option>
+                                    <option value="Média">Média</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Urgente">Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Descrição</label>
+                            <textarea class="form-control" id="editDescricao" rows="3"></textarea>
+                        </div>
+
+                        <ul class="nav nav-tabs" id="editTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="edit-sql-tab" data-bs-toggle="tab" data-bs-target="#edit-tab-sql" type="button"><i class="fas fa-database me-1"></i> SQL</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="edit-html-tab" data-bs-toggle="tab" data-bs-target="#edit-tab-html" type="button"><i class="fab fa-html5 me-1"></i> HTML</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content border border-top-0 p-3 rounded-bottom bg-light">
+                            <div class="tab-pane fade show active" id="edit-tab-sql">
+                                <textarea class="form-control font-monospace" id="editCodigoSql" rows="4"></textarea>
+                            </div>
+                            <div class="tab-pane fade" id="edit-tab-html">
+                                <textarea class="form-control font-monospace" id="editCodigoHtml" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="salvarEdicao()">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Visualizar Detalhes -->
+    <div class="modal fade" id="modalVisualizar" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="viewTitulo"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between mb-4 text-muted small border-bottom pb-2">
+                        <span id="viewCodigo" class="fw-bold text-dark"></span>
+                        <span id="viewData"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-secondary text-uppercase" style="font-size: 0.75rem;">Descrição</h6>
+                        <p id="viewDescricao" class="text-dark" style="white-space: pre-wrap;"></p>
+                    </div>
+
+                    <div id="boxSql" class="mb-3" style="display: none;">
+                        <span class="code-label text-primary"><i class="fas fa-database"></i> Script SQL</span>
+                        <pre id="viewSql" class="code-block"></pre>
+                    </div>
+
+                    <div id="boxHtml" class="mb-3" style="display: none;">
+                        <span class="code-label text-danger"><i class="fab fa-html5"></i> Código HTML</span>
+                        <pre id="viewHtml" class="code-block" style="color: #ffccbc; border-color: #d84315;"></pre>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light justify-content-between">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="deletarTarefa()">
+                        <i class="fas fa-trash-alt me-1"></i> Excluir
+                    </button>
+                    <div>
+                        <button type="button" class="btn btn-secondary btn-sm me-1" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="abrirEdicao()">
+                            <i class="fas fa-pen me-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- 1. ESTADO DA APLICAÇÃO ---
+        let tarefas = [];
+        let tarefaAtualId = null;
+
+        // --- 2. INICIALIZAÇÃO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDoLocalStorage();
+            atualizarQuadro();
+        });
+
+        // --- 3. FUNÇÕES AUXILIARES ---
+        function gerarCodigo() {
+            return 'TK-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        }
+
+        // --- 4. CRIAR TAREFA ---
+        function salvarTarefa() {
+            const titulo = document.getElementById('titulo').value;
+            if (!titulo) return alert("O título é obrigatório!");
+
+            const novaTarefa = {
+                id: Date.now(),
+                codigo: gerarCodigo(),
+                titulo: titulo,
+                descricao: document.getElementById('descricao').value,
+                prioridade: document.getElementById('prioridade').value,
+                sql: document.getElementById('codigoSql').value, 
+                html: document.getElementById('codigoHtml').value, // Campo Novo
+                status: 'todo',
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+
+            tarefas.push(novaTarefa);
+            salvarEAtualizar();
+            
+            // Limpa e fecha
+            document.getElementById('formTarefa').reset();
+            bootstrap.Modal.getInstance(document.getElementById('modalCriar')).hide();
+        }
+
+        // --- 5. VISUALIZAR TAREFA ---
+        function abrirTarefa(id) {
+            tarefaAtualId = id;
+            const tarefa = tarefas.find(t => t.id === id);
+            if (!tarefa) return;
+
+            // Preenche Modal de Visualização
+            document.getElementById('viewTitulo').innerText = tarefa.titulo;
+            document.getElementById('viewCodigo').innerText = tarefa.codigo;
+            document.getElementById('viewData').innerText = "Criado em: " + tarefa.data;
+            document.getElementById('viewDescricao').innerText = tarefa.descricao || "Sem descrição.";
+            
+            // Lógica SQL
+            const boxSql = document.getElementById('boxSql');
+            if (tarefa.sql && tarefa.sql.trim() !== "") {
+                boxSql.style.display = 'block';
+                document.getElementById('viewSql').innerText = tarefa.sql;
+            } else {
+                boxSql.style.display = 'none';
+            }
+
+            // Lógica HTML (Novo)
+            const boxHtml = document.getElementById('boxHtml');
+            if (tarefa.html && tarefa.html.trim() !== "") {
+                boxHtml.style.display = 'block';
+                document.getElementById('viewHtml').innerText = tarefa.html;
+            } else {
+                boxHtml.style.display = 'none';
+            }
+
+            new bootstrap.Modal(document.getElementById('modalVisualizar')).show();
+        }
+
+        // --- 6. EDITAR TAREFA (NOVO) ---
+        function abrirEdicao() {
+            // Fecha modal visualizar e abre modal editar
+            bootstrap.Modal.getInstance(document.getElementById('modalVisualizar')).hide();
+            
+            const tarefa = tarefas.find(t => t.id === tarefaAtualId);
+            if (!tarefa) return;
+
+            // Preenche o formulário de edição com os dados atuais
+            document.getElementById('editId').value = tarefa.id;
+            document.getElementById('editTitulo').value = tarefa.titulo;
+            document.getElementById('editPrioridade').value = tarefa.prioridade;
+            document.getElementById('editDescricao').value = tarefa.descricao;
+            document.getElementById('editCodigoSql').value = tarefa.sql || "";
+            document.getElementById('editCodigoHtml').value = tarefa.html || "";
+
+            new bootstrap.Modal(document.getElementById('modalEditar')).show();
+        }
+
+        function salvarEdicao() {
+            const id = parseInt(document.getElementById('editId').value);
+            const titulo = document.getElementById('editTitulo').value;
+            
+            if (!titulo) return alert("Título é obrigatório");
+
+            // Encontra a tarefa e atualiza os campos
+            const index = tarefas.findIndex(t => t.id === id);
+            if (index !== -1) {
+                tarefas[index].titulo = titulo;
+                tarefas[index].prioridade = document.getElementById('editPrioridade').value;
+                tarefas[index].descricao = document.getElementById('editDescricao').value;
+                tarefas[index].sql = document.getElementById('editCodigoSql').value;
+                tarefas[index].html = document.getElementById('editCodigoHtml').value;
+                
+                salvarEAtualizar();
+                bootstrap.Modal.getInstance(document.getElementById('modalEditar')).hide();
+                
+                // Reabre a visualização para conferir (opcional)
+                abrirTarefa(id);
+            }
+        }
+
+        // --- 7. EXCLUIR ---
+        function deletarTarefa() {
+            if (confirm("Tem certeza que deseja excluir permanentemente?")) {
+                tarefas = tarefas.filter(t => t.id !== tarefaAtualId);
+                salvarEAtualizar();
+                bootstrap.Modal.getInstance(document.getElementById('modalVisualizar')).hide();
+            }
+        }
+
+        function limparTudo() {
+            if (confirm("ATENÇÃO: Isso apagará TODOS os projetos. Continuar?")) {
+                tarefas = [];
+                salvarEAtualizar();
+            }
+        }
+
+        // --- 8. RENDERIZAÇÃO E DRAG & DROP ---
+        function atualizarQuadro() {
+            // Limpa colunas
+            ['todo', 'doing', 'testing', 'done'].forEach(status => {
+                document.getElementById(status + '-list').innerHTML = '';
+            });
+            
+            const contadores = { todo: 0, doing: 0, testing: 0, done: 0 };
+
+            tarefas.forEach(tarefa => {
+                contadores[tarefa.status]++;
+                
+                // Badges de ícones
+                let badges = '';
+                if (tarefa.sql && tarefa.sql.trim()) badges += `<span class="code-badge badge-sql me-1"><i class="fas fa-database"></i> SQL</span>`;
+                if (tarefa.html && tarefa.html.trim()) badges += `<span class="code-badge badge-html"><i class="fab fa-html5"></i> HTML</span>`;
+
+                const card = `
+                    <div class="kanban-card priority-${tarefa.prioridade}" 
+                         draggable="true" 
+                         ondragstart="drag(event)" 
+                         id="${tarefa.id}"
+                         onclick="abrirTarefa(${tarefa.id})">
+                        
+                        <div class="d-flex justify-content-between mb-2 align-items-center">
+                            <span class="badge bg-light text-secondary border rounded-1" style="font-size: 0.7rem">${tarefa.codigo}</span>
+                            <div class="code-badges">${badges}</div>
+                        </div>
+                        
+                        <div class="card-title">${tarefa.titulo}</div>
+                        
+                        <div class="card-footer-info">
+                            <span><i class="fas fa-flag me-1"></i> ${tarefa.prioridade}</span>
+                            <span><i class="far fa-calendar-alt me-1"></i> ${tarefa.data.substring(0,5)}</span>
+                        </div>
+                    </div>
+                `;
+                
+                const coluna = document.getElementById(`${tarefa.status}-list`);
+                if(coluna) coluna.innerHTML += card;
+            });
+
+            // Atualiza contadores
+            Object.keys(contadores).forEach(key => {
+                document.getElementById(`count-${key}`).innerText = contadores[key];
+            });
+        }
+
+        // Drag functions
+        function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); ev.target.classList.add('dragging'); }
+        
+        function drop(ev) {
+            ev.preventDefault();
+            document.querySelectorAll('.task-list').forEach(el => el.classList.remove('drag-over'));
+            
+            const id = parseInt(ev.dataTransfer.getData("text"));
+            const card = document.getElementById(id);
+            if(card) card.classList.remove('dragging');
+
+            let target = ev.target;
+            while (!target.classList.contains('kanban-column')) {
+                target = target.parentElement;
+                if(!target) return;
+            }
+
+            const novoStatus = target.getAttribute('data-status');
+            const index = tarefas.findIndex(t => t.id === id);
+            
+            if (index > -1 && tarefas[index].status !== novoStatus) {
+                tarefas[index].status = novoStatus;
+                salvarEAtualizar();
+            }
+        }
+        
+        // Remove efeito visual ao sair da área de drop
+        document.querySelectorAll('.task-list').forEach(el => {
+            el.addEventListener('dragleave', (e) => e.currentTarget.classList.remove('drag-over'));
+        });
+
+        // --- 9. PERSISTÊNCIA ---
+        function salvarEAtualizar() {
+            localStorage.setItem('kanbanProDB', JSON.stringify(tarefas));
+            atualizarQuadro();
+        }
+
+        function carregarDoLocalStorage() {
+            const dados = localStorage.getItem('kanbanProDB');
+            // Tenta migrar dados antigos se existirem (do código anterior)
+            const dadosAntigos = localStorage.getItem('kanbanSqlDB');
+            
+            if (dados) {
+                tarefas = JSON.parse(dados);
+            } else if (dadosAntigos) {
+                // Migração simples
+                tarefas = JSON.parse(dadosAntigos);
+                localStorage.setItem('kanbanProDB', JSON.stringify(tarefas));
+            }
+        }
+    </script>
+</body>
+</html>

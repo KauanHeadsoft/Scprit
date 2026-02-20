@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador SQL Fullscreen</title>
+    
+    <!-- Bibliotecas Externas -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+    <style>
+        /* Reset e Configuração Básica */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Remove barras de rolagem da janela */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Container Principal que divide a tela */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- PAINEL ESQUERDO (CÓDIGO) --- */
+        .sidebar {
+            width: 400px;
+            background: #1e293b; /* Cor escura profissional */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.3s ease;
+            z-index: 100;
+            flex-shrink: 0; /* Impede que ele encolha */
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.closed {
+            margin-left: -400px; /* Esconde o painel puxando para esquerda */
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #334155;
+            background: #0f172a;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        textarea {
+            flex: 1;
+            width: 100%;
+            background: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 13px;
+            resize: none;
+        }
+        textarea:focus { outline: 2px solid #3b82f6; }
+
+        /* --- ÁREA PRINCIPAL (DIAGRAMA) --- */
+        .main-content {
+            flex: 1; /* Ocupa todo o espaço restante */
+            position: relative;
+            background-color: white;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Onde o desenho vai aparecer */
+        #diagrama-wrapper {
+            flex: 1; /* Força altura total */
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* O zoom cuida da rolagem */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estilo para SVG ocupar tudo (CRUCIAL) */
+        #diagrama-wrapper svg {
+            width: 100%;
+            height: 100%;
+            max-width: none !important; /* Remove limites do Mermaid */
+        }
+
+        /* Botão Flutuante para Abrir Menu */
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .toggle-btn:hover { background: #1d4ed8; }
+
+        /* Abas no topo do diagrama */
+        .top-tabs {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 50;
+            display: flex;
+            gap: 5px;
+        }
+        .tab-btn {
+            padding: 8px 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .tab-btn.active { background: #eff6ff; color: #2563eb; }
+
+        /* Controles de Zoom no canto inferior */
+        .zoom-tools {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 50;
+        }
+        .tool-btn {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tool-btn:hover { background: #f8fafc; color: #2563eb; }
+        
+        /* Modal de Colunas */
+        #modalColunas {
+            position: absolute;
+            top: 70px; right: 20px; bottom: 20px; width: 400px;
+            background: white;
+            border-left: 1px solid #e2e8f0;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            z-index: 40;
+            padding: 20px;
+            overflow-y: auto;
+            display: none; /* Escondido por padrão */
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- 1. Painel Lateral (Código) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h5 class="m-0 fw-bold"><i class="bi bi-database me-2"></i>Visualizador SQL</h5>
+        </div>
+        <div class="sidebar-content">
+            <label class="form-label text-muted small">COLE SEU SELECT AQUI:</label>
+            <textarea id="sqlInput" placeholder="SELECT ... FROM ..."></textarea>
+            
+            <button onclick="gerar()" class="btn btn-primary w-100 mt-3 py-2 fw-bold">
+                <i class="bi bi-play-fill me-1"></i> DESMEMBRAR
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Área Principal -->
+    <div class="main-content">
+        
+        <!-- Botão para reabrir o menu -->
+        <button class="toggle-btn" onclick="toggleSidebar()" title="Abrir/Fechar Código">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Abas -->
+        <div class="top-tabs">
+            <button class="tab-btn active" onclick="showView('visual')">Visual</button>
+            <button class="tab-btn" onclick="showView('colunas')">Colunas</button>
+        </div>
+
+        <!-- Onde o Diagrama Fica -->
+        <div id="diagrama-wrapper">
+            <div class="text-muted text-center opacity-50">
+                <i class="bi bi-arrow-left display-6"></i><br>
+                Cole o SQL e clique em Desmembrar
+            </div>
+        </div>
+
+        <!-- Painel de Colunas (Sobreposto) -->
+        <div id="modalColunas">
+            <h5 class="fw-bold mb-3">Colunas do Relatório</h5>
+            <table class="table table-sm table-hover" style="font-size: 0.9rem;">
+                <thead class="table-light"><tr><th>Nome Final</th><th>Tabela</th></tr></thead>
+                <tbody id="tbodyColunas"></tbody>
+            </table>
+        </div>
+
+        <!-- Controles de Zoom -->
+        <div class="zoom-tools" id="zoomTools" style="display: none;">
+            <button class="tool-btn" onclick="zoomIn()"><i class="bi bi-plus-lg"></i></button>
+            <button class="tool-btn" onclick="zoomOut()"><i class="bi bi-dash-lg"></i></button>
+            <button class="tool-btn" onclick="fitZoom()"><i class="bi bi-arrows-fullscreen"></i></button>
+        </div>
+
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'base', securityLevel: 'loose' });
+    window.mermaid = mermaid;
+</script>
+
+<script>
+    let panZoomInstance = null;
+    let sidebarOpen = true;
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebarOpen = !sidebarOpen;
+        if(sidebarOpen) sidebar.classList.remove('closed');
+        else sidebar.classList.add('closed');
+        
+        // Redimensionar após animação
+        setTimeout(() => { if(panZoomInstance) panZoomInstance.resize(); }, 350);
+    }
+
+    function showView(tipo) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        if(tipo === 'colunas') {
+            document.getElementById('modalColunas').style.display = 'block';
+        } else {
+            document.getElementById('modalColunas').style.display = 'none';
+        }
+    }
+
+    async function gerar() {
+        const sql = document.getElementById('sqlInput').value;
+        if(!sql.trim()) return alert("Cole o SQL primeiro!");
+
+        // Fecha sidebar para dar espaço
+        sidebarOpen = true; 
+        toggleSidebar(); 
+
+        // Limpeza básica
+        let cleanSql = sql.replace(/\s+/g, ' ').trim();
+        
+        // Processar Tabelas e Ligações
+        const regexTabelas = /\b(FROM|JOIN|LEFT OUTER JOIN|INNER JOIN)\s+([a-zA-Z0-9_.]+)\s+([a-zA-Z0-9_]+)/gi;
+        const regexOn = /\bON\s+([a-zA-Z0-9_.]+)\s*=\s*([a-zA-Z0-9_.]+)/gi;
+        const selectMatch = cleanSql.match(/SELECT\s+(.+?)\s+FROM/i);
+        const whereMatch = cleanSql.match(/WHERE\s+(.+?)(?=\s+(ORDER|GROUP)|$)/i);
+
+        let mapa = {};
+        let principal = "";
+        let aliasPrincipal = "";
+        let nos = [];
+        
+        let match;
+        while ((match = regexTabelas.exec(sql)) !== null) {
+            let nome = match[2];
+            let alias = match[3];
+            if(['AS','ON','WHERE'].includes(alias.toUpperCase())) continue;
+            
+            mapa[alias] = nome;
+            
+            if(match[1].toUpperCase() === 'FROM') {
+                principal = alias;
+                aliasPrincipal = alias;
+                nos.push(`${alias}["<b>TABELA PRINCIPAL</b><br/>${nome}"]:::principal`);
+            } else {
+                nos.push(`${alias}["${nome}"]:::secundaria`);
+            }
+        }
+
+        let ligacoes = [];
+        let matchOn;
+        while ((matchOn = regexOn.exec(sql)) !== null) {
+            let p1 = matchOn[1].split('.');
+            let p2 = matchOn[2].split('.');
+            if(p1.length === 2 && p2.length === 2) {
+                ligacoes.push(`${p1[0]} -->|${p1[1]}| ${p2[0]}`);
+            }
+        }
+
+        // Construir Gráfico
+        let graph = "graph TD\n";
+        graph += "classDef principal fill:#dcfce7,stroke:#15803d,stroke-width:2px;\n";
+        graph += "classDef secundaria fill:#eff6ff,stroke:#2563eb;\n";
+        graph += "classDef filtro fill:#fef9c3,stroke:#a16207,stroke-dasharray: 5 5;\n";
+
+        nos.forEach(n => graph += n + "\n");
+        ligacoes.forEach(l => graph += l + "\n");
+
+        if(whereMatch && aliasPrincipal) {
+            let filtro = whereMatch[1].substring(0, 60) + "...";
+            graph += `Filtro["Filtro: ${filtro}"]:::filtro\n`;
+            graph += `${aliasPrincipal} -.-> Filtro\n`;
+        }
+
+        // Processar Colunas
+        let tbody = "";
+        if(selectMatch) {
+            let cols = selectMatch[1].split(/,(?![^(]*\))/);
+            cols.forEach(c => {
+                let parts = c.split(/\s+AS\s+/i);
+                let nome = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+                let origem = "Calculado";
+                let matchAlias = parts[0].trim().match(/^([a-zA-Z0-9_]+)\./);
+                if(matchAlias && mapa[matchAlias[1]]) origem = mapa[matchAlias[1]];
+                
+                tbody += `<tr><td><b>${nome}</b></td><td class="text-muted">${origem}</td></tr>`;
+            });
+        }
+        document.getElementById('tbodyColunas').innerHTML = tbody;
+
+        // Renderizar
+        await renderizar(graph);
+    }
+
+    async function renderizar(codigo) {
+        const wrapper = document.getElementById('diagrama-wrapper');
+        
+        // Limpar anterior
+        if(panZoomInstance) { panZoomInstance.destroy(); panZoomInstance = null; }
+        wrapper.innerHTML = '<div class="spinner-border text-primary"></div>';
+
+        try {
+            const { svg } = await window.mermaid.render('meuGrafico', codigo);
+            wrapper.innerHTML = svg;
+
+            const svgElement = wrapper.querySelector('svg');
+            
+            // TRUQUE PARA CORRIGIR O CORTE
+            svgElement.style.width = '100%';
+            svgElement.style.height = '100%';
+            svgElement.removeAttribute('maxWidth'); 
+            svgElement.removeAttribute('height'); // Remove altura fixa gerada pelo mermaid
+            
+            // Ativa o Zoom
+            panZoomInstance = svgPanZoom(svgElement, {
+                zoomEnabled: true,
+                controlIconsEnabled: false,
+                fit: true,
+                center: true,
+                minZoom: 0.1,
+                maxZoom: 20
+            });
+            
+            document.getElementById('zoomTools').style.display = 'flex';
+
+        } catch(e) {
+            wrapper.innerHTML = `<div class="alert alert-danger">Erro no SQL: ${e.message}</div>`;
+        }
+    }
+
+    // Funções Globais para os botões HTML chamarem
+    window.zoomIn = () => panZoomInstance && panZoomInstance.zoomIn();
+    window.zoomOut = () => panZoomInstance && panZoomInstance.zoomOut();
+    window.fitZoom = () => {
+        if(panZoomInstance) {
+            panZoomInstance.resetZoom();
+            panZoomInstance.fit();
+            panZoomInstance.center();
+        }
+    };
+    window.toggleSidebar = toggleSidebar;
+    window.gerar = gerar;
+    window.showView = showView;
+
+</script>
+</body>
+</html>
