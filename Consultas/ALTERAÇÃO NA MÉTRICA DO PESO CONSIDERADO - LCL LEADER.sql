@@ -1,0 +1,175 @@
+<DataSet><Parameters><Item Name="IdOferta_Frete" Type="ftInteger" Test="16"/></Parameters><CommandText>Select
+  Oft.IdOferta_Frete_Taxa,
+  Ofr.IdOferta_Frete,
+  Oft.IdTaxa_Logistica_Exibicao,
+  Oft.IdEquipamento_Maritimo,
+  Oft.IdMoeda_Pagamento,
+  Oft.IdMoeda_Recebimento,
+  Oft.IdConta_Pagamento,
+  Oft.IdPessoa_Pagamento,
+  Oft.IdPessoa_Recebimento,
+  Oft.IdCompanhia_Transporte,
+  Oft.IdOrigem_Destino,
+  Oft.IdProposta_Frete_Carga,
+  Oft.Pagar_Para,
+  Oft.Receber_De,
+  Oft.Quantidade_Pagamento,
+  Oft.Quantidade_Recebimento,
+  Oft.Valor_Pagamento_Unitario,
+  Oft.Valor_Pagamento_Minimo,
+  Oft.Valor_Pagamento_Total,
+  Oft.Valor_Recebimento_Unitario,
+  Oft.Valor_Recebimento_Minimo,
+  Oft.Valor_Recebimento_Total,
+  case When Oft.Tipo_Recebimento = 1 Then ''/*(Sem cobrança)*/
+        When Oft.Tipo_Recebimento = 2 Then 'por Processo'/*Peso Cubado*/
+        When Oft.Tipo_Recebimento = 3 Then 'por KG'/*Peso Cubado*/
+        When Oft.Tipo_Recebimento = 4 Then  case When Tle.IdTaxa_Logistica_Exibicao = 73 then 'Sob o valor da mercadoria' else'por KG'/*Peso Taxado*/ end
+        When Oft.Tipo_Recebimento = 5 Then 'por KG'/*Peso Bruto*/
+        When Oft.Tipo_Recebimento = 6 Then 'por CBM'/*Metro Cubico*/
+        When Oft.Tipo_Recebimento = 7 Then case Ofr.Modalidade_Processo When 1 then 'por HAWB' When 2 then 'por HBL'  else NULL end
+        When Oft.Tipo_Recebimento = 8 Then 'por Invoice'
+        When Oft.Tipo_Recebimento = 9 Then 'por Volume'
+        When Oft.Tipo_Recebimento = 10 Then 'por CNTR' /*Equipamento*/
+        When Oft.Tipo_Recebimento = 11 Then 'por ' + Emr.Descricao
+        When Oft.Tipo_Recebimento = 12 Then 'por TEU'
+        When Oft.Tipo_Recebimento = 13 Then case When Tle.IdTaxa_Logistica_Exibicao = 9 then 'Sob custos de origem e frete' else 'por Percentual' end
+        When Oft.Tipo_Recebimento = 14 Then ''/*livre*/
+        When Oft.Tipo_Recebimento = 15 Then '/Via Master'
+        When Oft.Tipo_Recebimento = 16 Then '/Via house'
+        When Oft.Tipo_Recebimento = 21 Then /*case When Tle.IdTaxa_Logistica_Exibicao = 35 then 'Sob o valor CIF' else*/ '% sobre importância segurada' /*end*/
+        When Oft.Tipo_Recebimento = 17 Then
+        Case Pfc.Tipo_Carga 
+            When 1 /*Aereo*/ then 'por KG' 
+            When 4 /*LCL*/then 
+              Case  
+                When Coalesce(Pfc.Peso_Considerado,0) = Coalesce(Pfc.Metros_Cubicos,0) then 'por CBM' 
+                When Coalesce(Pfc.Peso_Considerado,0) &gt; Coalesce(Pfc.Metros_Cubicos,0) then 'por Tonelada' 
+                Else ' por Tonelada ou CBM' 
+              End 
+            Else 'por Tonelada ou CBM' 
+          End
+  end as Tipo_Recebimento_escrito,
+    case When Oft.Tipo_Recebimento = 1 Then ''/*(Sem cobrança)*/
+        When Oft.Tipo_Recebimento = 2 Then 'per Process'/*Peso Cubado*/
+        When Oft.Tipo_Recebimento = 3 Then 'per KG'/*Peso Cubado*/
+        When Oft.Tipo_Recebimento = 4 Then 'per KG'/*Peso Taxado*/
+        When Oft.Tipo_Recebimento = 5 Then 'per KG'/*Peso Bruto*/
+        When Oft.Tipo_Recebimento = 6 Then 'per CBM'/*Metro Cubico*/
+        When Oft.Tipo_Recebimento = 7 Then case Ofr.Modalidade_Processo When 1 then 'per HAWB' When 2 then 'per HBL'  else NULL end
+        When Oft.Tipo_Recebimento = 8 Then 'per Invoice'
+        When Oft.Tipo_Recebimento = 9 Then 'per Volum'
+        When Oft.Tipo_Recebimento = 10 Then 'per CNTR' /*Equipamento*/
+        When Oft.Tipo_Recebimento = 11 Then 'per ' + Emr.Descricao
+        When Oft.Tipo_Recebimento = 12 Then 'per TEU'
+        When Oft.Tipo_Recebimento = 13 Then 'by percentage'/*Percentual*/
+        When Oft.Tipo_Recebimento = 14 Then ''/*livre*/
+        When Oft.Tipo_Recebimento = 15 Then '/Via Master'
+        When Oft.Tipo_Recebimento = 16 Then '/Via house'
+        When Oft.Tipo_Recebimento = 17 Then 
+        Case Pfc.Tipo_Carga 
+            When 1 /*Aereo*/ then 'per KG' 
+            When 4 /*LCL*/then 
+              Case  
+                When Coalesce(Pfc.Peso_Considerado,0) = Coalesce(Pfc.Metros_Cubicos,0) then 'per w/m' 
+                When Coalesce(Pfc.Peso_Considerado,0) &gt; Coalesce(Pfc.Metros_Cubicos,0) then 'per Ton' 
+                Else ' per Ton or w/m' 
+              End 
+            Else 'por Ton or w/m' 
+          End
+  end as Tipo_Recebimento_escrito_ingles,
+    case When Oft.Tipo_Pagamento = 1 Then ''/*(Sem cobrança)*/
+        When Oft.Tipo_Pagamento = 2 Then 'por Processo'/*Peso Cubado*/
+        When Oft.Tipo_Pagamento = 23 Then 'Por Ton' /*Peso bruto/ton adicionado 26-11*/
+        When Oft.Tipo_Pagamento = 3 Then 'por KG'/*Peso Cubado*/
+        When Oft.Tipo_Pagamento = 4 Then 'por KG'/*Peso Taxado*/
+        When Oft.Tipo_Pagamento = 5 Then 'por KG'/*Peso Bruto*/
+        When Oft.Tipo_Pagamento = 6 Then 'por CBM'/*Metro Cubico*/
+        When Oft.Tipo_Pagamento = 7 Then case Ofr.Modalidade_Processo When 1 then 'por HAWB' When 2 then 'por HBL'  else NULL end
+        When Oft.Tipo_Pagamento = 8 Then 'por Invoice'
+        When Oft.Tipo_Pagamento = 9 Then 'por Volumes'
+        When Oft.Tipo_Pagamento = 10 Then 'por CNTR' /*Equipamento*/
+        When Oft.Tipo_Pagamento = 11 Then 'por ' + Emr.Descricao
+        When Oft.Tipo_Pagamento = 12 Then 'por Teu'
+        When Oft.Tipo_Pagamento = 13 Then 'por Percentual'/*Percentual*/
+        When Oft.Tipo_Pagamento = 14 Then ''/*livre*/
+        When Oft.Tipo_Pagamento = 15 Then '/Via Master'
+        When Oft.Tipo_Pagamento = 16 Then '/Via house'
+        When Oft.Tipo_Pagamento = 17 Then
+
+          Case Pfc.Tipo_Carga 
+            When 1 /*Aereo*/ then 'por KG' 
+            When 4 /*LCL*/then 
+              Case  
+                When Coalesce(Pfc.Peso_Considerado,0) = Coalesce(Pfc.Metros_Cubicos,0) then 'por CBM' 
+                When Coalesce(Pfc.Peso_Considerado,0) &gt; Coalesce(Pfc.Metros_Cubicos,0) then 'por Tonelada' 
+                Else 'por Tonelada ou CBM' 
+              End 
+            Else 'por Tonelada ou CBM' 
+          End  end as Tipo_Pagamento_escrito,
+  Oft.Tipo_Pagamento,
+  Oft.Tipo_Recebimento,
+  Oft.Modalidade_Processo,
+  Oft.Tipo_Operacao,
+  Oft.Origem_Taxa,
+  Oft.Categoria,
+  Oft.Data_Validade,
+  Oft.Trecho,
+  Oft.Exibir_Cliente,
+  Oft.Complemento,
+  Oft.Observacao,
+  Tle.Nome As Taxa_Logistica_Exibicao,
+  Tle.Nome_Internacional as Taxa_Internacional,
+  Mpg.Sigla As Moeda_Pagamento,
+  Mrc.Sigla As Moeda_Recebimento,
+  Cpg.Nome As Conta_Pagamento,
+  Ppg.Nome As Pessoa_Pagamento,
+  Prc.Nome As Pessoa_Recebimento,
+  Emr.Descricao as Equipamento_Maritimo,
+  Case
+    When Oft.IdOferta_Frete Is NULL Then 2 /* Proposta */
+    Else 1 /* Oferta */
+  End As Vinculo
+From
+  mov_Oferta_Frete Ofr
+Join
+  mov_Oferta_Frete_Taxa Oft On Oft.IdOferta_Frete = Ofr.IdOferta_Frete /* Taxas da Oferta */
+    Or ((Oft.IdProposta_Frete = Ofr.IdProposta_Frete) /* Taxas da Proposta */
+      And (Oft.IdProposta_Frete_Carga = Ofr.IdProposta_Frete_Carga)
+      And (Oft.IdCompanhia_Transporte = Ofr.IdCompanhia_Transporte Or Oft.IdCompanhia_Transporte Is NULL)
+      And (Oft.Modalidade_Processo = Ofr.Modalidade_Processo)
+      And (Oft.Tipo_Operacao = Ofr.Tipo_Operacao)
+      And ((Oft.Origem_Taxa = 2 /* Origem */ And Oft.IdOrigem_Destino = Ofr.IdOrigem)
+        Or (Oft.Origem_Taxa = 3 /* Destino */ And Oft.IdOrigem_Destino = Ofr.IdDestino)
+        Or (Oft.Origem_Taxa = 1 /* Frete */)))
+Join
+  cad_Taxa_Logistica_Exibicao Tle On Tle.IdTaxa_Logistica_Exibicao = Oft.IdTaxa_Logistica_Exibicao
+Join
+  cad_Taxa_Logistica Tlg on Tlg.IdTaxa_Logistica = Tle.IdTaxa_Logistica
+Left Outer Join
+  cad_Moeda Mpg On Mpg.IdMoeda = Oft.IdMoeda_Pagamento
+Left Outer Join
+  cad_Moeda Mrc On Mrc.IdMoeda = Oft.IdMoeda_Recebimento
+Left Outer Join
+  cad_Conta_Corrente Cpg On Cpg.IdConta_Corrente = Oft.IdConta_Pagamento
+Left Outer Join
+  cad_Pessoa Ppg On Ppg.IdPessoa = Oft.IdPessoa_Pagamento
+Left Outer Join
+  cad_Pessoa Prc On Prc.IdPessoa = Oft.IdPessoa_Recebimento
+Left Outer Join
+  cad_Equipamento_Maritimo Emr on Emr.IdEquipamento_Maritimo = Oft.IdEquipamento_Maritimo
+Left Outer Join
+  mov_Proposta_Frete_Carga Pfc on Pfc.IdProposta_Frete_Carga = Ofr.IdProposta_Frete_Carga
+Where
+  Oft.Exibir_Cliente = 1
+and
+  Oft.Escalonar = 0
+And
+  Oft.Tipo_Recebimento not in (1)
+and
+  Ofr.IdOferta_Frete = :IdOferta_Frete
+Order By
+  Case Tlg.Tipo
+    When 1 /* frete */ Then 0
+    Else 1
+  End,Oft.Origem_Taxa,  Tle.Nome</CommandText></DataSet>

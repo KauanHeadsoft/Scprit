@@ -1,0 +1,34 @@
+<Dados_Registro><CommandText>
+SELECT
+  @Acao = CASE
+    WHEN Bloqueado = 1 THEN 2 /* Aviso*/
+    Else 0
+  END,
+  @Mensagem = CAST(CASE
+    WHEN Bloqueado = 1 THEN 'FAVOR VERIFICAR SE FOI PREENCHIDO:
+- Contatos follow up / agente
+- Proposta nos arquivos
+- Seguro (caso houver)
+- Referência / invoice e PL'
+    Else NULL
+  END as VARCHAR(MAX))
+FROM
+(
+  SELECT
+    CAST(CASE
+           WHEN Prm.Situacao = 2 /* Aprovada */ THEN 1
+      Else 0
+    END as Bit) as Bloqueado
+  FROM
+  (
+    SELECT
+      Prm.value('Item[@Nome="IdOferta_Frete"][1]/@Value', 'int') as IdOferta_Frete,
+      Prm.value('Item[@Nome="IdProposta_Frete"][1]/@Value', 'int') as IdProposta_Frete,
+      Prm.value('Item[@Nome="Situacao"][1]/@Value', 'int') as Situacao
+    FROM
+      @Parametros.nodes('/Parametros/Evento/Campos') as Parametros(Prm)
+  ) Prm
+ JOIN mov_Proposta_Frete Pfr ON Pfr.IdProposta_Frete = Prm.IdProposta_Frete 
+ LEFT OUTER JOIN mov_Oferta_Frete Ofr ON Ofr.IdProposta_Frete = Pfr.IdProposta_Frete
+) Blq
+</CommandText></Dados_Registro>

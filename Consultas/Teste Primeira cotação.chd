@@ -1,0 +1,68 @@
+[FieldDefs]
+Count=5
+Items[0].Name=Cliente
+Items[0].DataType=ftString
+Items[0].Precision=0
+Items[0].Size=75
+Items[1].Name=Vendedor
+Items[1].DataType=ftString
+Items[1].Precision=0
+Items[1].Size=75
+Items[2].Name=Data_Proposta
+Items[2].DataType=ftDateTime
+Items[2].Precision=0
+Items[2].Size=0
+Items[3].Name=Data_Aprovacao
+Items[3].DataType=ftDateTime
+Items[3].Precision=0
+Items[3].Size=0
+Items[4].Name=Situacao
+Items[4].DataType=ftString
+Items[4].Precision=0
+Items[4].Size=20
+
+[Consulta]
+Campos=9
+CommandTextHash=e6d41cccb29c0831dd3a093496376044
+CommandText=SELECT,"Pes.Cpf_Cnpj as CNPJ,","CASE Pes.Ativo when 0 then 'Inativo' when 1 then 'Ativo' end as Ativo,","Pes.Nome as Cliente,","Ppf.Data_Proposta, ","Ppf.Data_Aprovacao,","Oft.Numero_Oferta,","case Ppf.Situacao when 1 then 'Aguardando Aprovação' when 2 then 'Aprovada' when 3 then 'Não Aprovada' when 4 then 'Não Enviada' when 5 then 'Pré-Proposta' when 6 then 'Enviada'else 'erro 711' end as Situacao,","case Oft.Tipo_Operacao when 1 then 'Exportação'  when 2 then 'Importação' when 3 then 'Nacional' end as Tipo_Operacao,","case Oft.Modalidade_Processo when 1 then 'Aéreo' when 2 then 'Marítimo' when 3 then 'Terrestre' when 4 then 'Air-Air' when 5 then 'Sea-Air' end as Modalidade_Processo",FROM,"mov_Proposta_Frete Ppf","Left Outer Join","cad_Pessoa Pes on Pes.IdPessoa = Ppf.IdCliente","Left Outer Join","cad_Pessoa Ven on Ven.IdPessoa = Ppf.IdVendedor","Left Outer Join","mov_Oferta_Frete Oft on Oft.IdProposta_Frete  = Ppf.IdProposta_Frete",/*where*/
+
+[Campos]
+Campo[0].FieldName=CNPJ
+Campo[0].DisplayLabel=CNPJ
+Campo[0].Origin=Pes.Cpf_Cnpj
+Campo[0].Width=100
+Campo[1].FieldName=Ativo
+Campo[1].DisplayLabel=Cliente Situação
+Campo[1].Origin=CASE Pes.Ativo when 0 then 'Inativo' when 1 then 'Ativo' end
+Campo[1].Width=100
+Campo[2].FieldName=Cliente
+Campo[2].DisplayLabel=Cliente
+Campo[2].Origin=Pes.Nome
+Campo[2].Width=100
+Campo[3].FieldName=Data_Proposta
+Campo[3].DisplayLabel=Data Proposta
+Campo[3].Origin=Ppf.Data_Proposta
+Campo[3].Width=100
+Campo[3].DisplayFormat=dd/MM/yyyy
+Campo[4].FieldName=Data_Aprovacao
+Campo[4].DisplayLabel=Data Aprovacao
+Campo[4].Origin=Ppf.Data_Aprovacao
+Campo[4].Width=100
+Campo[4].DisplayFormat=dd/MM/yyyy
+Campo[5].FieldName=Numero_Oferta
+Campo[5].DisplayLabel=Nímero Oferta
+Campo[5].Origin=Oft.Numero_Oferta
+Campo[5].Width=100
+Campo[6].FieldName=Situacao
+Campo[6].DisplayLabel=Situação
+Campo[6].Origin=case Ppf.Situacao when 1 then 'Aguardando Aprovação' when 2 then 'Aprovada' when 3 then 'Não Aprovada' when 4 then 'Não Enviada' when 5 then 'Pré-Proposta' when 6 then 'Enviada'else 'erro 711' end
+Campo[6].Width=100
+Campo[7].FieldName=Tipo_Operacao
+Campo[7].DisplayLabel=Tipo Operação
+Campo[7].Origin=case Oft.Tipo_Operacao when 1 then 'Exportação'  when 2 then 'Importação' when 3 then 'Nacional' end
+Campo[7].Width=100
+Campo[8].FieldName=Modalidade_Processo
+Campo[8].DisplayLabel=Modalidade Processo
+Campo[8].Origin=case Oft.Modalidade_Processo when 1 then 'Aéreo' when 2 then 'Marítimo' when 3 then 'Terrestre' when 4 then 'Air-Air' when 5 then 'Sea-Air' end
+Campo[8].Width=100
+

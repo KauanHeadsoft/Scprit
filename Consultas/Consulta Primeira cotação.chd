@@ -1,0 +1,72 @@
+[Consulta]
+Campos=7
+CommandTextHash=36135b6f2c0d0e6bf2539c5f54ab8cb1
+=
+CommandText="SELECT ","    cpf_cnpj,","    Cliente,","    Numero_Oferta,","    Numero_Proposta,","    Data_Proposta,","    Modalidade_Processo,","    Tipo_Operacao","FROM (","    SELECT","        Pes.cpf_cnpj,","        Pes.Nome as Cliente,","        Oft.Numero_Oferta,","        Ppf.Numero_Proposta,","        Ppf.Data_Proposta,","        case Oft.Modalidade_Processo when 1 then 'Aéreo' when 2 then 'Marítimo' when 3 then 'Terrestre' when 4 then 'Air-Air' when 5 then 'Sea-Air' end as Modalidade_Processo,","        case Oft.Tipo_Operacao when 1 then 'Exportação' when 2 then 'Importação' when 3 then 'Nacional' end as Tipo_Operacao,","        ROW_NUMBER() OVER (PARTITION BY Pes.cpf_cnpj ORDER BY Ppf.Data_Proposta ASC) as Ordem","    FROM","        mov_Oferta_Frete Oft","    LEFT OUTER JOIN","        mov_Proposta_Frete Ppf on Ppf.IdProposta_Frete = Oft.IdProposta_Frete","    LEFT OUTER JOIN","        cad_Pessoa Pes on Pes.IdPessoa = Ppf.IdCliente",") as Resultado",/*WHERE*/,"WHERE Ordem = 1",
+
+[FieldDefs]
+Count=8
+Items[0].Name=Cpf_Cnpj
+Items[0].DataType=ftString
+Items[0].Precision=0
+Items[0].Size=25
+Items[1].Name=Cliente
+Items[1].DataType=ftString
+Items[1].Precision=0
+Items[1].Size=75
+Items[2].Name=Data_Criacao
+Items[2].DataType=ftDateTime
+Items[2].Precision=0
+Items[2].Size=0
+Items[3].Name=Data_Aprovacao
+Items[3].DataType=ftDateTime
+Items[3].Precision=0
+Items[3].Size=0
+Items[4].Name=Numero_Oferta
+Items[4].DataType=ftString
+Items[4].Precision=0
+Items[4].Size=50
+Items[5].Name=Situacao
+Items[5].DataType=ftString
+Items[5].Precision=0
+Items[5].Size=20
+Items[6].Name=Tipo_Operacao
+Items[6].DataType=ftString
+Items[6].Precision=0
+Items[6].Size=10
+Items[7].Name=Modalidade_Processo
+Items[7].DataType=ftString
+Items[7].Precision=0
+Items[7].Size=9
+
+[Campos]
+Campo[0].FieldName=cpf_cnpj
+Campo[0].DisplayLabel=CPNJ
+Campo[0].Origin=cpf_cnpj
+Campo[0].Width=100
+Campo[1].FieldName=Cliente
+Campo[1].DisplayLabel=Cliente
+Campo[1].Origin=Cliente
+Campo[1].Width=100
+Campo[2].FieldName=Numero_Oferta
+Campo[2].DisplayLabel=Número Oferta
+Campo[2].Origin=Numero_Oferta
+Campo[2].Width=100
+Campo[3].FieldName=Numero_Proposta
+Campo[3].DisplayLabel=Número Proposta
+Campo[3].Origin=Numero_Proposta
+Campo[3].Width=100
+Campo[4].FieldName=Data_Proposta
+Campo[4].DisplayLabel=Data da Proposta
+Campo[4].Origin=Data_Proposta
+Campo[4].Width=100
+Campo[4].DisplayFormat=dd/MM/yyyy
+Campo[5].FieldName=Modalidade_Processo
+Campo[5].DisplayLabel=Modalidade Processo
+Campo[5].Origin=Modalidade_Processo
+Campo[5].Width=100
+Campo[6].FieldName=Tipo_Operacao
+Campo[6].DisplayLabel=Tipo de Operação
+Campo[6].Origin=Tipo_Operacao
+Campo[6].Width=100
+

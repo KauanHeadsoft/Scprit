@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrutura do Banco de Dados - Follow Up Enterprise</title>
+    <!-- Importando Bootstrap para estilo bonito e minimalista -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .card-header {
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+        }
+        .card-body {
+            padding: 30px;
+            background-color: white;
+            overflow-x: auto; /* Permite rolar se o diagrama for grande */
+        }
+        h2 {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        p {
+            color: #6c757d;
+        }
+        /* Estilo para centralizar o diagrama */
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Título Principal -->
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-dark">Estudo Visual: Follow-Up Enterprise</h1>
+            <p class="lead text-muted">Diagrama das ligações SQL utilizadas no relatório corrigido.</p>
+        </div>
+
+        <!-- Bloco 1: Estrutura Principal -->
+        <div class="card">
+            <div class="card-header">
+                <h2>1. Estrutura Geral (DataSet Processo)</h2>
+            </div>
+            <div class="card-body">
+                <p>Este diagrama mostra como o sistema busca os dados básicos (Cliente, Origem, Destino) a partir da atividade selecionada.</p>
+                <div class="mermaid">
+                    erDiagram
+                        %% A Tabela Principal (O Gatilho)
+                        mov_Atividade {
+                            int IdAtividade PK "Filtro Principal (:IdAtividade)"
+                            int IdProjeto_Atividade FK
+                        }
+
+                        %% A Tabela do Processo (House)
+                        mov_Logistica_House {
+                            int IdLogistica_House PK
+                            string Numero_Processo
+                            int IdCliente FK
+                            int IdExportador FK
+                        }
+
+                        %% A Tabela Master
+                        mov_Logistica_Master {
+                            int IdLogistica_Master PK
+                            int IdOrigem FK
+                            int IdDestino FK
+                        }
+
+                        %% Tabelas de Cadastro (Cadastros Básicos)
+                        cad_Pessoa_Cliente {
+                            string Nome_Fantasia
+                        }
+                        cad_Origem_Destino {
+                            string Nome "Nome da Cidade/Porto"
+                        }
+
+                        %% AS LIGAÇÕES (JOINS)
+                        mov_Atividade ||--|| mov_Logistica_House : "Liga pelo IdProjeto_Atividade"
+                        mov_Logistica_House ||--|| mov_Logistica_Master : "Liga pelo IdLogistica_Master"
+                        
+                        mov_Logistica_House }|--|| cad_Pessoa_Cliente : "Busca dados do Cliente"
+                        mov_Logistica_Master }|--|| cad_Origem_Destino : "Busca Origem e Destino"
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloco 2: O Loop dos Navios -->
+        <div class="card">
+            <div class="card-header bg-success"> <!-- Cor Verde para destacar a parte que arrumamos -->
+                <h2>2. A Lógica dos Múltiplos Navios (Correção Realizada)</h2>
+            </div>
+            <div class="card-body">
+                <p>Aqui está o segredo da correção. Em vez de ligar direto no Navio, ligamos na tabela de <strong>Viagem (Transbordo)</strong>. Note o símbolo <code>}o--||</code> que significa "Muitos para Um".</p>
+                
+                <div class="mermaid">
+                    erDiagram
+                        %% Tabela do Processo
+                        mov_Logistica_House {
+                            int IdLogistica_House PK
+                        }
+
+                        %% Tabela de Viagens (Pode ter várias linhas para 1 processo)
+                        mov_Logistica_Viagem {
+                            int IdLogistica_Viagem PK
+                            int IdLogistica_House FK
+                            int IdNavio FK
+                            date Data_Embarque
+                            date Data_Desembarque
+                        }
+
+                        %% Tabela de Navios
+                        cad_Navio {
+                            int IdNavio PK
+                            string Nome "Nome do Navio"
+                        }
+
+                        %% A LIGAÇÃO CRUCIAL
+                        mov_Logistica_House ||--|{ mov_Logistica_Viagem : "1 Processo tem VÁRIAS Viagens (Loop)"
+                        mov_Logistica_Viagem }|--|| cad_Navio : "Cada Viagem busca seu Navio"
+                </div>
+                <div class="alert alert-info mt-3">
+                    <strong>Explicação:</strong> O comando <code>SubReport</code> que adicionamos no HTML serve justamente para percorrer a seta "Várias Viagens" acima. Ele desenha uma linha na tabela para cada caixa de <code>mov_Logistica_Viagem</code> encontrada.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script do Mermaid.js (Faz o desenho automático) -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>

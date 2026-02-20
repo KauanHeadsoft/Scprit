@@ -1,0 +1,70 @@
+SELECT 
+ ROW_NUMBER() OVER(ORDER BY @@ROWCOUNT) as Indice,
+ Lhs.IdLogistica_House,
+ Lhs.Numero_Processo,
+ Resp.Nome as Emissor_Nota,
+ Cli.Nome,
+ Nfs.Data_Emissao,
+ Nfs.NFSe_Numero_Rps,
+ Nfs.Valor_Liquido,
+ Nfs.Valor_Servicos,
+ Nfs.Valor_ISS AS Valor_ISS,
+ Nfs.Valor_IR AS Valor_IR, 
+ Nfs.Valor_INSS AS Valor_INSS,
+ Nfs.Valor_CSLL AS Valor_CSLL,
+ Nfs.Valor_PIS AS Valor_PIS,
+ Nfs.Valor_Cofins AS Valor_Cofins,
+ -(Nfs.Valor_ISS + Nfs.Valor_IR + Nfs.Valor_INSS + Nfs.Valor_CSLL + Nfs.Valor_PIS + Nfs.Valor_Cofins) AS Total_Impostos,
+ SUM(Ltx.Valor_Recebimento_Total) AS Valor_Total,
+ SUM(Nfs.Valor_Liquido) AS Total_Liquido,
+ SUM(Nfs.Valor_Servicos) AS Total_Servicos,
+ SUM(Nfs.Valor_ISS) AS Total_ISS,
+ SUM(Nfs.Valor_IR) AS Total_IR,
+ SUM(Nfs.Valor_PIS) AS Total_PIS,
+ SUM(Nfs.Valor_Cofins) AS Total_Cofins,
+ ((Nfs.Valor_ISS + Nfs.Valor_IR + Nfs.Valor_INSS + Nfs.Valor_CSLL + Nfs.Valor_PIS + Nfs.Valor_Cofins) - SUM(Ltx.Valor_Recebimento_Total)) as Total_Geral,
+ (Lgm.Total_Recebido - Lgm.Total_Pago) AS Adiantamento,
+ Nfs.Situacao
+FROM 
+  mov_Nota_Fiscal_Servico Nfs
+left outer join 
+  aux_Nota_Fiscal_Servico_Fatura Nfa on Nfa.IdNota_Fiscal_Servico = Nfs.IdNota_Fiscal_Servico
+left outer join 
+  vis_Logistica_Fatura Lft on Lft.IdRegistro_Financeiro = Nfa.IdRegistro_Financeiro
+left outer join 
+  mov_Logistica_House Lhs on Lhs.IdLogistica_House = Lft.IdLogistica_House
+left outer join 
+  cad_Pessoa Cli on Cli.IdPessoa = Lhs.IdCliente
+left outer join 
+  mov_Logistica_Taxa Ltx on Ltx.IdLogistica_House = Lhs.IdLogistica_House
+Left Outer Join 
+  mov_Logistica_Moeda Lgm on Lgm.IdLogistica_House = Ltx.IdLogistica_House and Lgm.IdMoeda = 110
+Left Outer Join
+  mov_Log_Nota_Fiscal_Servico Nfl on Nfl.Referencia = Nfs.IdLote_Nota_Fiscal_Servico and Nfl.Tipo = 1
+Left Outer Join
+  vis_Funcionario Fcn on Fcn.IdUsuario_Correspondente = Nfl.IdUsuario
+Left Outer Join
+  cad_Pessoa Resp on Resp.IdPessoa = Fcn.IdPessoa
+/*WHERE*/ 
+
+GROUP BY 
+	Lhs.IdLogistica_House,
+  Lhs.Numero_Processo,
+	Cli.Nome,
+	Cli.Cpf_Cnpj,
+	Resp.Nome,
+	Nfs.Data_Emissao,
+	Nfs.NFSe_Numero_Rps,
+	Nfs.Valor_Liquido,
+	Nfs.Valor_Servicos,
+	(Nfs.Valor_ISS + Nfs.Valor_IR + Nfs.Valor_INSS + Nfs.Valor_CSLL + Nfs.Valor_PIS + Nfs.Valor_Cofins),
+	Nfs.Valor_ISS,
+	Nfs.Valor_IR, 
+	Nfs.Valor_INSS,
+	Nfs.Valor_CSLL,
+	Nfs.Valor_PIS ,
+	Nfs.Valor_Cofins,
+	Nfs.Situacao,
+	(Lgm.Total_Recebido - Lgm.Total_Pago)
+Order by
+  Nfs.Data_Emissao

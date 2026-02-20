@@ -1,0 +1,60 @@
+tabela: mov_oferta_frete_taxa
+coluna: IdOferta_Frete_Taxa
+coluna: Modalidade_Pagamento
+coluna: IdOferta_Frete
+coluna: idProposta_Frete
+
+
+tabela: mov_Logistica_Taxa
+coluna:IdLogistica_House
+coluna: Modalidade_Pagamento
+
+
+tabela: mov_logistica_house
+coluna de ligamento:
+
+
+Tabela: mov_oferta_frete
+
+
+
+Comercial:
+(Proposta -> Informações:Modalidade de pagamento master) não pode ser diferente de (Comercial:Taxas -> Modalidade de pagamento)
+(Proposta -> Informações: Modalidade de pagamento house) não pode ser diferente de (Comercial:Taxas -> Modalidade de recebimento)
+
+
+ Operacional:
+ (Processo -> Master -> *campo de Modalidade de pagamento*) não pode ser diferente de (Processo -> Taxas -> pagamento -> campo de Modalidade (lado esquerdo))
+ (Processo -> House -> *campo de Modalidade pagamento*) não pode ser diferente de (Processo -> Taxas -> Recebimento -> campo de Modalidade (lado direito))
+
+
+OFERTA TAXA FRETE
+TIPO_RECEBIMENTO_ESCRITO
+
+
+Bloqueio somente para taxa FRETE MARITIMO - FCL
+
+Processo exp: IMVOX251028
+IdTaxa_Logistica_Exibicao: 678
+
+IdTaxa_Logistica_Exibicao de teste pancaldi: 252
+
+Classe:TLogisticaMaster
+
+
+Processo -> Master -> Modalidade pagamento 'Collect, Prepaid, Prepaid Abroad'
+
+smtp.office365.com:587 (TLSv1.2; Explícito)
+
+
+---------------------------
+Erro
+---------------------------
+Ocorreu algum erro ao tentar carregar o dataset da tabela 'mov_Logistica_Master'.
+---------------------------
+Detalhes:
+
+Type mismatch for field 'Validar_Ajuste_Viagens', expecting: Boolean actual: Word
+---------------------------
+OK
+---------------------------
